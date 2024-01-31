@@ -10,6 +10,12 @@ namespace BankAppBackend.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Teller>(tellerEntity =>
+            {
+                tellerEntity.HasMany(teller => teller.Applicants)
+                .WithOne(applicant => applicant.Teller)
+                .HasForeignKey(applicant => applicant.TellerId);
+            });
         }
     }
 }

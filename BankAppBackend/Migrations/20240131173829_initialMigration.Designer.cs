@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankAppBackend.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240131121652_intialMigration")]
-    partial class intialMigration
+    [Migration("20240131173829_initialMigration")]
+    partial class initialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,9 @@ namespace BankAppBackend.Migrations
                         .HasColumnType("bigint");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long?>("TellerId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("accountStatus")
                         .HasColumnType("int");
@@ -57,6 +60,8 @@ namespace BankAppBackend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TellerId");
+
                     b.ToTable("applicants");
                 });
 
@@ -75,6 +80,20 @@ namespace BankAppBackend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("tellers");
+                });
+
+            modelBuilder.Entity("BankAppBackend.Models.Applicant", b =>
+                {
+                    b.HasOne("BankAppBackend.Models.Teller", "Teller")
+                        .WithMany("Applicants")
+                        .HasForeignKey("TellerId");
+
+                    b.Navigation("Teller");
+                });
+
+            modelBuilder.Entity("BankAppBackend.Models.Teller", b =>
+                {
+                    b.Navigation("Applicants");
                 });
 #pragma warning restore 612, 618
         }

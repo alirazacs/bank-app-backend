@@ -27,10 +27,9 @@ namespace BankAppBackend.Models
         [Required(ErrorMessage = "Applicant dob can't be empty")]
         public DateOnly dob { get; set; }
         [Required(ErrorMessage = "Applicant account type can't be null")]
-
-       // public int TellerId { get; set; } //teller foreign key
-       // public Teller? Teller {  get; set; } // navigation property 
         public AccountType accountType { get; set; }
         public AccountStatus accountStatus { get; set; } = AccountStatus.PENDING;
+        public long? TellerId { get; set; } //teller foreign key
+        public Teller? Teller { get; set; } // navigation property 
     }
 }

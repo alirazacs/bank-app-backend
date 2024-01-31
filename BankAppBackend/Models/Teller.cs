@@ -9,7 +9,6 @@ namespace BankAppBackend.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         public string Name { get; set; } = "DummyTeller";
-
-        //public List<Applicant> applicants{ get; set; }   
+        public ICollection<Applicant>? Applicants { get; set; }
     }
 }
