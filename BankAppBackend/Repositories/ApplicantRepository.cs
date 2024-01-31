@@ -17,8 +17,7 @@ namespace BankAppBackend.Repositories
 
         public Applicant? findApplicantById(long applicantId)
         {
-            List<Applicant> allApplicants = GetApplicants().ToList();
-            return allApplicants.Find(applicants=>applicants.Id.Equals(applicantId));
+            return _databaseContext.applicants.Find(applicantId);
         }
 
         public IEnumerable<Applicant> GetApplicants()
