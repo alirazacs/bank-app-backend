@@ -1,46 +1,44 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BankAppBackend.Models;
 using Microsoft.EntityFrameworkCore;
+using BankAppBackend.Service;
 
 namespace BankAppBackend.Controllers
 {
     [Route("api/user")]
     [ApiController]
-    public class ApplicantController(DatabaseContext context) : ControllerBase
+    public class ApplicantController : ControllerBase
     {
-        private readonly DatabaseContext _context = context;
+        private IApplicantService applicantService;
+        public ApplicantController(IApplicantService applicantService)
+        {
+            this.applicantService = applicantService;
+        }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Applicant>>> GetAllApplicantsAsync()
+        public ActionResult<IEnumerable<Applicant>> GetAllApplicantsAsync()
         {
             // Logic to fetch data and return a response
-            return await _context.applicants.ToListAsync();
+            return Ok(applicantService.GetAllApplicantList());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Applicant>> FindApplicantById(long id)
+        public  ActionResult<Applicant> FindApplicantById(long id)
         {
-            var applicants = await _context.applicants.FindAsync(id);
-            if (applicants == null)
+            var applicant = applicantService.GetApplicantById(id);
+            if (applicant == null)
             {
                 return NotFound($"applicant not found with id {id}");
             }
-            return Ok(applicants);
+            return Ok(applicant);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Applicant>> AddApplicant([FromBody] Applicant applicant)
+        public ActionResult<Applicant> AddApplicant([FromBody] Applicant applicant)
         {
-            _context.applicants.Add(applicant);
-            await _context.SaveChangesAsync();
-            return Ok(new { message = "Applicant Added successfully", data = applicant });
-        }
+            applicantService.AddApplicant(applicant);
 
-        [HttpPut("{id}")]
-        public ActionResult<Applicant> UpdateApplicantStatus(long id, [FromBody] Applicant applicant)
-        {
-            //call applicant service here
-            return Ok(new { message = "Applicant status updated successfully", data = applicant });
+            return Ok(new { message = "Applicant Added successfully", data = applicant });
         }
 
     }

@@ -6,16 +6,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BankAppBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class initialMigration : Migration
+    public partial class intialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "applicants",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     address = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -26,7 +26,20 @@ namespace BankAppBackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.id);
+                    table.PrimaryKey("PK_applicants", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tellers",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tellers", x => x.Id);
                 });
         }
 
@@ -34,7 +47,10 @@ namespace BankAppBackend.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "applicants");
+
+            migrationBuilder.DropTable(
+                name: "tellers");
         }
     }
 }
