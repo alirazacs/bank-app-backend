@@ -25,7 +25,7 @@ namespace BankAppBackend.Models
         [Required(ErrorMessage = "User phone number can't be empty")]
         public string phoneNumber { get; set; }
         [Required(ErrorMessage = "User dob can't be empty")]
-        public DateTime dob { get; set; }
+        public DateOnly dob { get; set; }
         [Required(ErrorMessage = "User account type can't be null")]
         public AccountType accountType { get; set; }
         public AccountStatus accountStatus { get; set; } = AccountStatus.PENDING;
