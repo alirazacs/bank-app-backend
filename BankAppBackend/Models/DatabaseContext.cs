@@ -4,12 +4,16 @@ namespace BankAppBackend.Models
 {
     public class DatabaseContext :DbContext
     {
-        public DbSet<User> Users { get; set; }
+        public DbSet<Applicant> applicants { get; set; }
+        public DbSet<Teller> tellers { get; set; }
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Teller>()
+                .HasMany(teller => teller.applicants)
+                .WithOne(applicant => applicant.Teller)
+                .HasForeignKey(teller => teller.TellerId);
         }
     }
 }
