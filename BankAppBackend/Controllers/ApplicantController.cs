@@ -21,7 +21,7 @@ namespace BankAppBackend.Controllers
         public async Task<ActionResult<Applicant>> FindApplicantById(long id)
         {
             var applicants = await _context.applicants.FindAsync(id);
-            if(applicants == null)
+            if (applicants == null)
             {
                 return NotFound($"applicant not found with id {id}");
             }
@@ -33,7 +33,14 @@ namespace BankAppBackend.Controllers
         {
             _context.applicants.Add(applicant);
             await _context.SaveChangesAsync();
-            return Ok(new {message = "Applicant Added successfully", data = applicant });
+            return Ok(new { message = "Applicant Added successfully", data = applicant });
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult<Applicant> UpdateApplicantStatus(long id, [FromBody] Applicant applicant)
+        {
+            //call applicant service here
+            return Ok(new { message = "Applicant status updated successfully", data = applicant });
         }
 
     }
