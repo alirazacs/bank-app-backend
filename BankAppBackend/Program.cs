@@ -1,3 +1,4 @@
+using BankAppBackend;
 using BankAppBackend.Models;
 using BankAppBackend.Repositories;
 using BankAppBackend.Service;
@@ -16,6 +17,7 @@ builder.Services.AddDbContext<DatabaseContext>(conn => conn.UseSqlServer(connect
 builder.Services.AddScoped<IApplicantRepository, ApplicantRepository>();
 builder.Services.AddScoped<IApplicantService, ApplicantService>();
 builder.Services.AddScoped<ITellerService, TellerService>();
+builder.Services.AddScoped<IRedisMessagePublisherService, RedisMessagePublisherService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

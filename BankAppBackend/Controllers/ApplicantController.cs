@@ -10,6 +10,7 @@ namespace BankAppBackend.Controllers
     public class ApplicantController : ControllerBase
     {
         private IApplicantService applicantService;
+        
         public ApplicantController(IApplicantService applicantService)
         {
             this.applicantService = applicantService;
