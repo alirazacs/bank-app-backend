@@ -1,3 +1,4 @@
+using BankAppBackend;
 using BankAppBackend.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 string connectionString = builder.Configuration.GetConnectionString("SQLConnectionString") ?? throw new InvalidOperationException("Connection string of name SQLConnectionString not found");
 builder.Services.AddDbContext<DatabaseContext>(conn => conn.UseSqlServer(connectionString));
+builder.Services.AddHostedService<RedisMessagePublisher>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
