@@ -1,4 +1,5 @@
 ﻿using BankAppBackend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankAppBackend.Repositories
 {
@@ -17,12 +18,13 @@ namespace BankAppBackend.Repositories
 
         public Applicant? findApplicantById(long applicantId)
         {
-            return _databaseContext.applicants.Find(applicantId);
+            List<Applicant> applicantsList = GetApplicants().ToList();
+            return applicantsList.Find(applicant=>applicant.Id.Equals(applicantId));
         }
 
         public IEnumerable<Applicant> GetApplicants()
         {
-            return _databaseContext.applicants;
+            return _databaseContext.applicants.Include(a => a.Teller).Include(a=>a.customer);
         }
 
         public void UpdateApplicant(Applicant applicant) {
