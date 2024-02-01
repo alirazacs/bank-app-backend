@@ -47,10 +47,10 @@ namespace BankAppBackend.Service
             applicant.accountStatus = accountStatus;
 
             applicantRepository.UpdateApplicant(applicant);
-            ApplicantMessagesModel  applicantMessages= new ApplicantMessagesModel();
-            applicantMessages.ApplicantId = (int)applicant.Id;
-            applicantMessages.message = $"Dear Applicant {applicant.name}, your status has been updated to {accountStatus}";
-            redisMessagePublisherService.sendMessage(applicantMessages);
+            ApplicantMessagesModel applicantMessageModel = new ApplicantMessagesModel();
+            applicantMessageModel.ApplicantId = (int)applicant.Id;
+            applicantMessageModel.message = $"Dear Applicant {applicant.name}, your status has been updated to {accountStatus}";
+            redisMessagePublisherService.sendMessage(applicantMessageModel);
             return applicant;
         }
     }
