@@ -9,9 +9,12 @@ namespace BankAppBackend.Service
     {
         private IApplicantRepository applicantRepository;
         private IRedisMessagePublisherService redisMessagePublisherService;
-        public ApplicantService(IApplicantRepository applicantRepository,IRedisMessagePublisherService redisMessagePublisherService) {
+        private ICustomerService customerService;
+        public ApplicantService(IApplicantRepository applicantRepository,IRedisMessagePublisherService redisMessagePublisherService, ICustomerService customerService)
+        {
             this.applicantRepository = applicantRepository;
             this.redisMessagePublisherService = redisMessagePublisherService;
+            this.customerService = customerService;
         }
 
         public void AddApplicant(Applicant applicant)
@@ -47,6 +50,11 @@ namespace BankAppBackend.Service
             applicant.accountStatus = accountStatus;
 
             applicantRepository.UpdateApplicant(applicant);
+            if(applicant.accountStatus.Equals(AccountStatus.APPROVED))
+            {
+                customerService.CreateCustomer(applicant);
+            }
+
             ApplicantMessagesModel applicantMessageModel = new ApplicantMessagesModel();
             applicantMessageModel.ApplicantId = (int)applicant.Id;
             applicantMessageModel.message = $"Dear Applicant {applicant.name}, your status has been updated to {accountStatus}";

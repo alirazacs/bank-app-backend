@@ -11,11 +11,11 @@ namespace BankAppBackend.Repositories
         }
         public Teller? GetTellerById(long tellerId)
         {
-            return _databaseContext.tellers.Find(tellerId); ;
+            return _databaseContext.Tellers.Find(tellerId); ;
         }
 
         public IEnumerable<Teller> GetAllTellers() {
-            return _databaseContext.tellers;
+            return _databaseContext.Tellers;
         }
 
     }

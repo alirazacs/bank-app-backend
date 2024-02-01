@@ -17,7 +17,9 @@ string connectionString = builder.Configuration.GetConnectionString("SQLConnecti
 builder.Services.AddDbContext<DatabaseContext>(conn => conn.UseSqlServer(connectionString));
 builder.Services.AddScoped<IApplicantRepository, ApplicantRepository>();
 builder.Services.AddTransient<ITellerRepository, TellerRepository>();
+builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IApplicantService, ApplicantService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ITellerService, TellerService>();
 builder.Services.AddScoped<IRedisMessagePublisherService, RedisMessagePublisherService>();
 var app = builder.Build();

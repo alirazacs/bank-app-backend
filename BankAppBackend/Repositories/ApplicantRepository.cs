@@ -12,7 +12,7 @@ namespace BankAppBackend.Repositories
         }
         public void AddApplicant(Applicant applicant)
         {
-            _databaseContext.applicants.Add(applicant);
+            _databaseContext.Applicants.Add(applicant);
             _databaseContext.SaveChanges();
         }
 
@@ -24,11 +24,11 @@ namespace BankAppBackend.Repositories
 
         public IEnumerable<Applicant> GetApplicants()
         {
-            return _databaseContext.applicants.Include(a => a.Teller).Include(a=>a.customer);
+            return _databaseContext.Applicants.Include(a => a.Teller).Include(a=>a.customer);
         }
 
         public void UpdateApplicant(Applicant applicant) {
-            _databaseContext.applicants.Update(applicant);
+            _databaseContext.Applicants.Update(applicant);
             _databaseContext.SaveChanges();
         }
 
