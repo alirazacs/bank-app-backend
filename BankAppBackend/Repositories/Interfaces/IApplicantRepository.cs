@@ -1,6 +1,6 @@
 ﻿using BankAppBackend.Models;
 
-namespace BankAppBackend.Repositories
+namespace BankAppBackend.Repositories.Interfaces
 {
     public interface IApplicantRepository
     {

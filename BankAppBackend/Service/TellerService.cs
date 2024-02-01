@@ -1,5 +1,5 @@
 ﻿using BankAppBackend.Models;
-using BankAppBackend.Repositories;
+using BankAppBackend.Repositories.Interfaces;
 using BankAppBackend.Service.Interfaces;
 
 namespace BankAppBackend.Service
