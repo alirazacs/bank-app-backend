@@ -16,6 +16,7 @@ builder.Services.AddSwaggerGen();
 string connectionString = builder.Configuration.GetConnectionString("SQLConnectionString") ?? throw new InvalidOperationException("Connection string of name SQLConnectionString not found");
 builder.Services.AddDbContext<DatabaseContext>(conn => conn.UseSqlServer(connectionString));
 builder.Services.AddScoped<IApplicantRepository, ApplicantRepository>();
+builder.Services.AddTransient<ITellerRepository, TellerRepository>();
 builder.Services.AddScoped<IApplicantService, ApplicantService>();
 builder.Services.AddScoped<ITellerService, TellerService>();
 builder.Services.AddScoped<IRedisMessagePublisherService, RedisMessagePublisherService>();

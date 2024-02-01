@@ -12,7 +12,7 @@ namespace BankAppBackend.Models
         public string Password { get; set; }
 
         public long ApplicantId { get; set; }
-        public virtual Applicant Applicant { get; set; }
+        public Applicant Applicant { get; set; }
 
     }
 }

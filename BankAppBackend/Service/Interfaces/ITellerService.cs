@@ -4,6 +4,7 @@ namespace BankAppBackend.Service.Interfaces
 {
     public interface ITellerService
     {
-        public Applicant? ChangeApplicantStatus(long applicantId, AccountStatus accountStatus);
+        public Applicant? ChangeApplicantStatus(long applicantId, AccountStatus accountStatus, long tellerId);
+        public List<Teller> GetAllTellers();
     }
 }

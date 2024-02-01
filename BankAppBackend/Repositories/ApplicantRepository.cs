@@ -27,6 +27,7 @@ namespace BankAppBackend.Repositories
 
         public void UpdateApplicant(Applicant applicant) {
             _databaseContext.applicants.Update(applicant);
+            _databaseContext.SaveChanges();
         }
 
     }

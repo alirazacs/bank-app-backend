@@ -8,6 +8,6 @@ namespace BankAppBackend.Service.Interfaces
         public List<Applicant> GetAllApplicantList();
         public Applicant? GetApplicantById(long applicantId);
         public void UpdateApplicant(Applicant applicant);
-        public Applicant? UpdateApplicantStatus(long applicantId, AccountStatus accountStatus);
+        public Applicant? UpdateApplicantStatus(long applicantId, AccountStatus accountStatus, Teller teller);
     }
 }

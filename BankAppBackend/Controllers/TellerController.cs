@@ -16,10 +16,17 @@ namespace BankAppBackend.Controllers
         }
 
         [HttpPut("changeStatus")]
-        public Applicant? GetApplicants(long applicantId, AccountStatus accountStatus )
+        public ActionResult<Applicant?> GetApplicants(long applicantId, AccountStatus accountStatus, long tellerId )
         {
-            return tellerSevice.ChangeApplicantStatus(applicantId, accountStatus);
+            return tellerSevice.ChangeApplicantStatus(applicantId, accountStatus, tellerId);
         }
+
+        [HttpGet("getAllTellers")]
+        public ActionResult<List<Teller>> GetAllTellers()
+        {
+            return tellerSevice.GetAllTellers();
+        }
+
         
 
     }

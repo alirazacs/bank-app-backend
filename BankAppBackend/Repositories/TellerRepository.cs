@@ -11,8 +11,7 @@ namespace BankAppBackend.Repositories
         }
         public Teller? GetTellerById(long tellerId)
         {
-            List<Teller> tellers = GetAllTellers().ToList();
-            return tellers.Find(teller=>teller.Id.Equals(tellerId));
+            return _databaseContext.tellers.Find(tellerId); ;
         }
 
         public IEnumerable<Teller> GetAllTellers() {

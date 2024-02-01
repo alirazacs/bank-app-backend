@@ -32,13 +32,17 @@ namespace BankAppBackend.Service
             throw new NotImplementedException();
         }
 
-        public Applicant? UpdateApplicantStatus(long applicantId, AccountStatus accountStatus) {
+        public Applicant? UpdateApplicantStatus(long applicantId, AccountStatus accountStatus, Teller teller) {
             Applicant? applicant = GetApplicantById(applicantId);
             if (applicant == null)
             {
                 throw new Exception($"Applicant with id {applicantId} not found");
             }
+
+            applicant.TellerId = teller.Id;
+            applicant.Teller = teller;
             applicant.accountStatus = accountStatus;
+
             applicantRepository.UpdateApplicant(applicant);
             return applicant;
         }
