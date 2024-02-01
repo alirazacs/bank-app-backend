@@ -12,6 +12,12 @@ namespace BankAppBackend.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<Applicant>(applicant =>
+            {
+                applicant.HasIndex(customer => customer.CNIC).IsUnique(true);
+            });
+
             modelBuilder.Entity<Teller>(tellerEntity =>
             {
                 tellerEntity.HasMany(teller => teller.Applicants)
@@ -21,16 +27,13 @@ namespace BankAppBackend.Models
 
             modelBuilder.Entity<Applicant>(applicantEntity =>
             {
-                applicantEntity.HasOne(applicant => applicant.customer)
+                applicantEntity.HasOne(applicant => applicant.Customer)
                 .WithOne(customer => customer.Applicant)
                 .HasForeignKey<Customer>(customer => customer.ApplicantId);
             });
 
             modelBuilder.Entity<Customer>(customerEntity =>
             {
-                customerEntity.HasIndex(customer => customer.UserName)
-                .IsUnique(true);
-
                 customerEntity.HasMany(customer => customer.Accounts)
                 .WithOne(account => account.Customer)
                 .HasForeignKey(account => account.CustomerId);

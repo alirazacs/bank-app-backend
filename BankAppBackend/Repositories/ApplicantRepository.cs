@@ -17,6 +17,12 @@ namespace BankAppBackend.Repositories
             _databaseContext.SaveChanges();
         }
 
+        public Applicant? FindApplicantByCNIC(string cnic)
+        {
+            List<Applicant> applicantsList = GetApplicants().ToList();
+            return applicantsList.Find(app => app.CNIC.Equals(cnic));
+        }
+
         public Applicant? findApplicantById(long applicantId)
         {
             List<Applicant> applicantsList = GetApplicants().ToList();
@@ -25,7 +31,7 @@ namespace BankAppBackend.Repositories
 
         public IEnumerable<Applicant> GetApplicants()
         {
-            return _databaseContext.Applicants.Include(a => a.Teller).Include(a=>a.customer);
+            return _databaseContext.Applicants.Include(a => a.Teller).Include(a=>a.Customer);
         }
 
         public void UpdateApplicant(Applicant applicant) {

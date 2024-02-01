@@ -20,7 +20,11 @@ namespace BankAppBackend.Service
 
         public void AddApplicant(Applicant applicant)
         {
-            applicant.accountStatus = AccountStatus.PENDING;
+            if(applicantRepository.FindApplicantByCNIC(applicant.CNIC) != null)
+            {
+                throw new Exception($"Applicant already exist with CNIC number:{applicant.CNIC}");
+            }
+            applicant.AccountStatus = AccountStatus.PENDING;
             applicantRepository.AddApplicant(applicant);
         }
 
@@ -49,17 +53,17 @@ namespace BankAppBackend.Service
 
             applicant.TellerId = teller.Id;
             applicant.Teller = teller;
-            applicant.accountStatus = accountStatus;
+            applicant.AccountStatus = accountStatus;
 
             applicantRepository.UpdateApplicant(applicant);
-            if(applicant.accountStatus.Equals(AccountStatus.APPROVED))
+            if(applicant.AccountStatus.Equals(AccountStatus.APPROVED))
             {
                 customerService.CreateCustomerAndAccount(applicant);
             }
 
             ApplicantMessagesModel applicantMessageModel = new ApplicantMessagesModel();
             applicantMessageModel.ApplicantId = (int) applicant.Id;
-            applicantMessageModel.message = $"Dear Applicant {applicant.name}, your status has been updated to {accountStatus}";
+            applicantMessageModel.message = $"Dear Applicant {applicant.ApplicateName}, your status has been updated to {accountStatus}";
             redisMessagePublisherService.sendMessage(applicantMessageModel);
             return applicant;
         }

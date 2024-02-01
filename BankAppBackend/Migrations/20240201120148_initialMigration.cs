@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BankAppBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class addedCustomerEntity : Migration
+    public partial class initialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,12 +30,12 @@ namespace BankAppBackend.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    name = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    phoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    dob = table.Column<DateOnly>(type: "date", nullable: false),
-                    accountType = table.Column<int>(type: "int", nullable: false),
-                    accountStatus = table.Column<int>(type: "int", nullable: false),
+                    ApplicateName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CNIC = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DOB = table.Column<DateOnly>(type: "date", nullable: false),
+                    AccountType = table.Column<int>(type: "int", nullable: false),
+                    AccountStatus = table.Column<int>(type: "int", nullable: false),
                     TellerId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
@@ -54,7 +54,7 @@ namespace BankAppBackend.Migrations
                 {
                     CustomerId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ApplicantId = table.Column<long>(type: "bigint", nullable: false)
                 },
@@ -95,6 +95,12 @@ namespace BankAppBackend.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Applicants_CNIC",
+                table: "Applicants",
+                column: "CNIC",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Applicants_TellerId",
                 table: "Applicants",
                 column: "TellerId");
@@ -103,12 +109,6 @@ namespace BankAppBackend.Migrations
                 name: "IX_Customers_ApplicantId",
                 table: "Customers",
                 column: "ApplicantId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Customers_UserName",
-                table: "Customers",
-                column: "UserName",
                 unique: true);
         }
 

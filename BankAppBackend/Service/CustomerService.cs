@@ -39,7 +39,7 @@ namespace BankAppBackend.Service
         private Customer createNewAccount(Customer customer)
         {
             Account account = new Account();
-            account.AccountType = customer.Applicant.accountType;
+            account.AccountType = customer.Applicant.AccountType;
             account.Balance = 0.00;
             account.CustomerId = customer.CustomerId;
             account.Customer = customer;

@@ -52,32 +52,35 @@ namespace BankAppBackend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long?>("TellerId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("accountStatus")
+                    b.Property<int>("AccountStatus")
                         .HasColumnType("int");
 
-                    b.Property<int>("accountType")
+                    b.Property<int>("AccountType")
                         .HasColumnType("int");
 
-                    b.Property<string>("address")
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly>("dob")
-                        .HasColumnType("date");
-
-                    b.Property<string>("name")
+                    b.Property<string>("ApplicateName")
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.Property<string>("phoneNumber")
+                    b.Property<string>("CNIC")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateOnly>("DOB")
+                        .HasColumnType("date");
+
+                    b.Property<long?>("TellerId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CNIC")
+                        .IsUnique();
 
                     b.HasIndex("TellerId");
 
@@ -101,14 +104,11 @@ namespace BankAppBackend.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CustomerId");
 
                     b.HasIndex("ApplicantId")
-                        .IsUnique();
-
-                    b.HasIndex("UserName")
                         .IsUnique();
 
                     b.ToTable("Customers");
@@ -154,7 +154,7 @@ namespace BankAppBackend.Migrations
             modelBuilder.Entity("BankAppBackend.Models.Customer", b =>
                 {
                     b.HasOne("BankAppBackend.Models.Applicant", "Applicant")
-                        .WithOne("customer")
+                        .WithOne("Customer")
                         .HasForeignKey("BankAppBackend.Models.Customer", "ApplicantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -164,7 +164,7 @@ namespace BankAppBackend.Migrations
 
             modelBuilder.Entity("BankAppBackend.Models.Applicant", b =>
                 {
-                    b.Navigation("customer");
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("BankAppBackend.Models.Customer", b =>
