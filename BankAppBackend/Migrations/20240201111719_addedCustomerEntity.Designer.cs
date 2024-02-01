@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankAppBackend.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240201080656_addedCustomerData")]
-    partial class addedCustomerData
+    [Migration("20240201111719_addedCustomerEntity")]
+    partial class addedCustomerEntity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,28 @@ namespace BankAppBackend.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("BankAppBackend.Models.Account", b =>
+                {
+                    b.Property<Guid>("AccountId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AccountType")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Balance")
+                        .HasColumnType("float");
+
+                    b.Property<long>("CustomerId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("AccountId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Accounts");
+                });
 
             modelBuilder.Entity("BankAppBackend.Models.Applicant", b =>
                 {
@@ -62,7 +84,7 @@ namespace BankAppBackend.Migrations
 
                     b.HasIndex("TellerId");
 
-                    b.ToTable("applicants");
+                    b.ToTable("Applicants");
                 });
 
             modelBuilder.Entity("BankAppBackend.Models.Customer", b =>
@@ -82,14 +104,17 @@ namespace BankAppBackend.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CustomerId");
 
                     b.HasIndex("ApplicantId")
                         .IsUnique();
 
-                    b.ToTable("Customer");
+                    b.HasIndex("UserName")
+                        .IsUnique();
+
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("BankAppBackend.Models.Teller", b =>
@@ -106,7 +131,18 @@ namespace BankAppBackend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tellers");
+                    b.ToTable("Tellers");
+                });
+
+            modelBuilder.Entity("BankAppBackend.Models.Account", b =>
+                {
+                    b.HasOne("BankAppBackend.Models.Customer", "Customer")
+                        .WithMany("Accounts")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("BankAppBackend.Models.Applicant", b =>
@@ -132,6 +168,11 @@ namespace BankAppBackend.Migrations
             modelBuilder.Entity("BankAppBackend.Models.Applicant", b =>
                 {
                     b.Navigation("customer");
+                });
+
+            modelBuilder.Entity("BankAppBackend.Models.Customer", b =>
+                {
+                    b.Navigation("Accounts");
                 });
 
             modelBuilder.Entity("BankAppBackend.Models.Teller", b =>

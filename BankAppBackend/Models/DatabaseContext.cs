@@ -7,6 +7,7 @@ namespace BankAppBackend.Models
         public DbSet<Applicant> Applicants { get; set; }
         public DbSet<Teller> Tellers { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Account> Accounts { get; set; }
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,6 +30,10 @@ namespace BankAppBackend.Models
             {
                 customerEntity.HasIndex(customer => customer.UserName)
                 .IsUnique(true);
+
+                customerEntity.HasMany(customer => customer.Accounts)
+                .WithOne(account => account.Customer)
+                .HasForeignKey(account => account.CustomerId);
             });
         }
     }

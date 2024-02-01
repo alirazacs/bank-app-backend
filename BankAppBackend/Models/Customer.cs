@@ -17,6 +17,7 @@ namespace BankAppBackend.Models
         public long ApplicantId { get; set; }
         [JsonIgnore]
         public Applicant Applicant { get; set; }
+        public ICollection<Account> Accounts { get; set; }
 
     }
 }

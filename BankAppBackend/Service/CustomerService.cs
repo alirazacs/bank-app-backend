@@ -28,5 +28,10 @@ namespace BankAppBackend.Service
             customerRepository.CreateCustomer(newCustomer);
             return newCustomer;
         }
+
+        public Customer CreateNewCustomerAndAccount(Applicant applicant)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

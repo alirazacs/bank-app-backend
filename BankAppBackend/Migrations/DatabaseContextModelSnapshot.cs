@@ -22,6 +22,28 @@ namespace BankAppBackend.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("BankAppBackend.Models.Account", b =>
+                {
+                    b.Property<Guid>("AccountId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AccountType")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Balance")
+                        .HasColumnType("float");
+
+                    b.Property<long>("CustomerId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("AccountId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Accounts");
+                });
+
             modelBuilder.Entity("BankAppBackend.Models.Applicant", b =>
                 {
                     b.Property<long>("Id")
@@ -79,11 +101,14 @@ namespace BankAppBackend.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CustomerId");
 
                     b.HasIndex("ApplicantId")
+                        .IsUnique();
+
+                    b.HasIndex("UserName")
                         .IsUnique();
 
                     b.ToTable("Customers");
@@ -104,6 +129,17 @@ namespace BankAppBackend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tellers");
+                });
+
+            modelBuilder.Entity("BankAppBackend.Models.Account", b =>
+                {
+                    b.HasOne("BankAppBackend.Models.Customer", "Customer")
+                        .WithMany("Accounts")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("BankAppBackend.Models.Applicant", b =>
@@ -129,6 +165,11 @@ namespace BankAppBackend.Migrations
             modelBuilder.Entity("BankAppBackend.Models.Applicant", b =>
                 {
                     b.Navigation("customer");
+                });
+
+            modelBuilder.Entity("BankAppBackend.Models.Customer", b =>
+                {
+                    b.Navigation("Accounts");
                 });
 
             modelBuilder.Entity("BankAppBackend.Models.Teller", b =>
