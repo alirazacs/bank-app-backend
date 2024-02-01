@@ -5,7 +5,7 @@ using BankAppBackend.Service.Interfaces;
 
 namespace BankAppBackend.Controllers
 {
-    [Route("api/user")]
+    [Route("api/applicant")]
     [ApiController]
     public class ApplicantController : ControllerBase
     {

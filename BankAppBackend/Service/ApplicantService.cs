@@ -1,14 +1,17 @@
 ﻿using BankAppBackend.Models;
 using BankAppBackend.Repositories;
 using BankAppBackend.Service.Interfaces;
+using BankTrackingSystem.Models;
 
 namespace BankAppBackend.Service
 {
     public class ApplicantService : IApplicantService
     {
         private IApplicantRepository applicantRepository;
-        public ApplicantService(IApplicantRepository applicantRepository) {
+        private IRedisMessagePublisherService redisMessagePublisherService;
+        public ApplicantService(IApplicantRepository applicantRepository,IRedisMessagePublisherService redisMessagePublisherService) {
             this.applicantRepository = applicantRepository;
+            this.redisMessagePublisherService = redisMessagePublisherService;
         }
 
         public void AddApplicant(Applicant applicant)
@@ -44,6 +47,10 @@ namespace BankAppBackend.Service
             applicant.accountStatus = accountStatus;
 
             applicantRepository.UpdateApplicant(applicant);
+            ApplicantMessagesModel  applicantMessages= new ApplicantMessagesModel();
+            applicantMessages.ApplicantId = (int)applicant.Id;
+            applicantMessages.message = $"Dear Applicant {applicant.name}, your status has been updated to {accountStatus}";
+            redisMessagePublisherService.sendMessage(applicantMessages);
             return applicant;
         }
     }

@@ -1,9 +1,10 @@
-﻿using StackExchange.Redis;
+﻿using BankTrackingSystem.Models;
+using StackExchange.Redis;
 
 namespace BankAppBackend.Service.Interfaces
 {
     public interface IRedisMessagePublisherService
     {
-        public Task sendMessage(string message);
+        public Task sendMessage(ApplicantMessagesModel applicantMessagesModel);
     }
 }
