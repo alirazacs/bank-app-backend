@@ -2,6 +2,7 @@ using BankAppBackend;
 using BankAppBackend.Models;
 using BankAppBackend.Repositories;
 using BankAppBackend.Service;
+using BankAppBackend.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

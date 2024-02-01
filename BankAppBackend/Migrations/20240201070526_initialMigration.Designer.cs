@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankAppBackend.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240131173829_initialMigration")]
+    [Migration("20240201070526_initialMigration")]
     partial class initialMigration
     {
         /// <inheritdoc />

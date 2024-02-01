@@ -1,5 +1,5 @@
 ﻿using BankAppBackend.Models;
-using BankAppBackend.Service;
+using BankAppBackend.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

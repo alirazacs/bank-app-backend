@@ -1,4 +1,5 @@
 ﻿using BankAppBackend.Models;
+using BankAppBackend.Service.Interfaces;
 using StackExchange.Redis;
 
 namespace BankAppBackend.Service

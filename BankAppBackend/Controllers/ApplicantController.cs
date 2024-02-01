@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BankAppBackend.Models;
 using Microsoft.EntityFrameworkCore;
-using BankAppBackend.Service;
+using BankAppBackend.Service.Interfaces;
 
 namespace BankAppBackend.Controllers
 {
