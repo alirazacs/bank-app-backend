@@ -38,12 +38,6 @@ namespace BankAppBackend.Service
             return applicantRepository.findApplicantById(applicantId);
         }
 
-        public void UpdateApplicant(Applicant applicant)
-        {
-
-            throw new NotImplementedException();
-        }
-
         public Applicant? UpdateApplicantStatus(long applicantId, AccountStatus accountStatus, Teller teller) {
             Applicant? applicant = GetApplicantById(applicantId);
             if (applicant == null)

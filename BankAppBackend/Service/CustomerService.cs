@@ -48,10 +48,5 @@ namespace BankAppBackend.Service
             customerRepository.UpdateCustomer(customer);
             return customer;
         }
-
-        public Customer CreateNewCustomerAndAccount(Applicant applicant)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
