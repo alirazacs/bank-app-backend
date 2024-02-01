@@ -1,4 +1,5 @@
 ﻿using BankAppBackend.Models;
+using BankAppBackend.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankAppBackend.Repositories

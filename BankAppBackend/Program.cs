@@ -1,6 +1,6 @@
-using BankAppBackend;
 using BankAppBackend.Models;
 using BankAppBackend.Repositories;
+using BankAppBackend.Repositories.Interfaces;
 using BankAppBackend.Service;
 using BankAppBackend.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;

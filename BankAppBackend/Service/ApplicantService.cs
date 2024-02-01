@@ -1,5 +1,6 @@
 ﻿using BankAppBackend.Models;
 using BankAppBackend.Repositories;
+using BankAppBackend.Repositories.Interfaces;
 using BankAppBackend.Service.Interfaces;
 using BankTrackingSystem.Models;
 
@@ -56,7 +57,7 @@ namespace BankAppBackend.Service
             }
 
             ApplicantMessagesModel applicantMessageModel = new ApplicantMessagesModel();
-            applicantMessageModel.ApplicantId = (int)applicant.Id;
+            applicantMessageModel.ApplicantId = (int) applicant.Id;
             applicantMessageModel.message = $"Dear Applicant {applicant.name}, your status has been updated to {accountStatus}";
             redisMessagePublisherService.sendMessage(applicantMessageModel);
             return applicant;
