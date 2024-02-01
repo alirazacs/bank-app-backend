@@ -20,6 +20,7 @@ namespace BankAppBackend.Service
 
         public void AddApplicant(Applicant applicant)
         {
+            applicant.accountStatus = AccountStatus.PENDING;
             applicantRepository.AddApplicant(applicant);
         }
 
@@ -53,7 +54,7 @@ namespace BankAppBackend.Service
             applicantRepository.UpdateApplicant(applicant);
             if(applicant.accountStatus.Equals(AccountStatus.APPROVED))
             {
-                customerService.CreateCustomer(applicant);
+                customerService.CreateCustomerAndAccount(applicant);
             }
 
             ApplicantMessagesModel applicantMessageModel = new ApplicantMessagesModel();

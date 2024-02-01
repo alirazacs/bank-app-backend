@@ -4,6 +4,6 @@ namespace BankAppBackend.Service.Interfaces
 {
     public interface ICustomerService
     {
-        public Customer CreateCustomer(Applicant applicant);
+        public Customer CreateCustomerAndAccount(Applicant applicant);
     }
 }
