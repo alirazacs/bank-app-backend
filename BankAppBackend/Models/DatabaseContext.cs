@@ -16,6 +16,13 @@ namespace BankAppBackend.Models
                 .WithOne(applicant => applicant.Teller)
                 .HasForeignKey(applicant => applicant.TellerId);
             });
+
+            modelBuilder.Entity<Applicant>(applicantEntity =>
+            {
+                applicantEntity.HasOne(applicant => applicant.customer)
+                .WithOne(customer => customer.Applicant)
+                .HasForeignKey<Customer>(customer => customer.ApplicantId);
+            });
         }
     }
 }

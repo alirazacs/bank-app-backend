@@ -31,5 +31,6 @@ namespace BankAppBackend.Models
         public AccountStatus accountStatus { get; set; } = AccountStatus.PENDING;
         public long? TellerId { get; set; } //teller foreign key
         public Teller? Teller { get; set; } // navigation property 
+        public Customer? customer { get; set; }
     }
 }
