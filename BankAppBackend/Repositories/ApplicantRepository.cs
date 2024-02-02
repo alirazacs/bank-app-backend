@@ -11,10 +11,11 @@ namespace BankAppBackend.Repositories
         {
             _databaseContext = databaseContext;
         }
-        public void AddApplicant(Applicant applicant)
+        public Applicant AddApplicant(Applicant applicant)
         {
             _databaseContext.Applicants.Add(applicant);
             _databaseContext.SaveChanges();
+            return applicant;
         }
 
         public Applicant? FindApplicantByCNIC(string cnic)

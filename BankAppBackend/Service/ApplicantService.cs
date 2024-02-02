@@ -18,7 +18,7 @@ namespace BankAppBackend.Service
             this.customerService = customerService;
         }
 
-        public void AddApplicant(Applicant applicant)
+        public Applicant AddApplicant(Applicant applicant)
         {
             if(applicantRepository.FindApplicantByCNIC(applicant.CNIC) != null)
             {
@@ -26,6 +26,7 @@ namespace BankAppBackend.Service
             }
             applicant.AccountStatus = AccountStatus.PENDING;
             applicantRepository.AddApplicant(applicant);
+            return applicant;
         }
 
         public List<Applicant> GetAllApplicantList()

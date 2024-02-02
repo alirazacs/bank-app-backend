@@ -9,7 +9,7 @@ namespace BankAppBackend.Controllers
     [ApiController]
     public class ApplicantController : ControllerBase
     {
-        private IApplicantService applicantService;
+        private readonly IApplicantService applicantService;
         
         public ApplicantController(IApplicantService applicantService)
         {
@@ -37,9 +37,9 @@ namespace BankAppBackend.Controllers
         [HttpPost]
         public ActionResult<Applicant> AddApplicant([FromBody] Applicant applicant)
         {
-            applicantService.AddApplicant(applicant);
+           Applicant savedApplicant =  applicantService.AddApplicant(applicant);
 
-            return Ok(new { message = "Applicant Added successfully", data = applicant });
+            return Ok(new { message = "Applicant Added successfully", data = savedApplicant });
         }
 
     }

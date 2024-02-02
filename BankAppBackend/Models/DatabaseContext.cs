@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BankAppBackend.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankAppBackend.Models
 {
@@ -8,6 +9,7 @@ namespace BankAppBackend.Models
         public DbSet<Teller> Tellers { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<Transaction> transactions { get; set; }
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
