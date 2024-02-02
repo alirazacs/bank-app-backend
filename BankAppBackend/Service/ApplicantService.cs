@@ -22,7 +22,7 @@ namespace BankAppBackend.Service
         {
             if(applicantRepository.FindApplicantByCNIC(applicant.CNIC) != null)
             {
-                throw new Exception($"Applicant already exist with CNIC number:{applicant.CNIC}");
+                throw new Exception($"Applicant already exist with CNIC number : {applicant.CNIC}");
             }
             applicant.AccountStatus = AccountStatus.PENDING;
             applicantRepository.AddApplicant(applicant);
