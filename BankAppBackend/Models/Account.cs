@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BankAppBackend.Models
 {
@@ -10,7 +11,11 @@ namespace BankAppBackend.Models
         public Guid AccountId {  get; set; }
         public AccountType AccountType { get; set; }
         public double Balance { get; set; } = 0.00;
+        public long CustomerId { get; set; }
+        [JsonIgnore]
         public Customer Customer { get; set; }
-        public long CustomerId {  get; set; }   
+
+        [JsonIgnore]
+        public ICollection<Transaction> Transactions { get; set; }
     }
 }

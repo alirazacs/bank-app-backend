@@ -1,4 +1,8 @@
-﻿namespace BankAppBackend.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
+namespace BankAppBackend.Models
 {
     public enum TransactionType
     {
@@ -6,15 +10,14 @@
     }
     public class Transaction
     {
-        public long Id { get; set; }
-
-        public long TransactionId { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid TransactionId { get; set; }
         public TransactionType TransactionType { get; set; }
         public double Amount { get; set; }
         public DateTime DateTime { get; set; }
-        public int CustomerId { get; set; }
-        public Customer Customer { get; set; } 
-        public int AccountId { get; set; }
+        public Guid AccountId { get; set; }
+        [JsonIgnore]
         public Account Account { get; set; }
 
 

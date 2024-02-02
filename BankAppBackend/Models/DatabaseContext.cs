@@ -12,12 +12,13 @@ namespace BankAppBackend.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            // to store unique CNIC
             modelBuilder.Entity<Applicant>(applicant =>
             {
                 applicant.HasIndex(customer => customer.CNIC).IsUnique(true);
             });
 
+            // teller - applicants one-to-many relation
             modelBuilder.Entity<Teller>(tellerEntity =>
             {
                 tellerEntity.HasMany(teller => teller.Applicants)
@@ -25,6 +26,15 @@ namespace BankAppBackend.Models
                 .HasForeignKey(applicant => applicant.TellerId);
             });
 
+            // account - transactions one-to-many relation
+            modelBuilder.Entity<Account>(acntEntity =>
+            {
+                acntEntity.HasMany(acnt=> acnt.Transactions)
+                .WithOne(txn=> txn.Account)
+                .HasForeignKey(txn => txn.AccountId);
+            });
+
+            // applicant - customer one-to-one relation
             modelBuilder.Entity<Applicant>(applicantEntity =>
             {
                 applicantEntity.HasOne(applicant => applicant.Customer)
@@ -32,6 +42,7 @@ namespace BankAppBackend.Models
                 .HasForeignKey<Customer>(customer => customer.ApplicantId);
             });
 
+            // customer - accounts one-to-many relation
             modelBuilder.Entity<Customer>(customerEntity =>
             {
                 customerEntity.HasMany(customer => customer.Accounts)

@@ -131,6 +131,31 @@ namespace BankAppBackend.Migrations
                     b.ToTable("Tellers");
                 });
 
+            modelBuilder.Entity("BankAppBackend.Models.Transaction", b =>
+                {
+                    b.Property<Guid>("TransactionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("int");
+
+                    b.HasKey("TransactionId");
+
+                    b.HasIndex("AccountId");
+
+                    b.ToTable("Transaction");
+                });
+
             modelBuilder.Entity("BankAppBackend.Models.Account", b =>
                 {
                     b.HasOne("BankAppBackend.Models.Customer", "Customer")
@@ -160,6 +185,22 @@ namespace BankAppBackend.Migrations
                         .IsRequired();
 
                     b.Navigation("Applicant");
+                });
+
+            modelBuilder.Entity("BankAppBackend.Models.Transaction", b =>
+                {
+                    b.HasOne("BankAppBackend.Models.Account", "Account")
+                        .WithMany("Transactions")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("BankAppBackend.Models.Account", b =>
+                {
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("BankAppBackend.Models.Applicant", b =>
