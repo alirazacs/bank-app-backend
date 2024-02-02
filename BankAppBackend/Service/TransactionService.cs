@@ -14,6 +14,8 @@ namespace BankAppBackend.Service
         }
         public Transaction AddTransaction(Transaction transaction)
         {
+            Account account = new Account();
+            //implement txn add logic here before adding txn
            return this._transactionRepository.AddTransaction(transaction);
         }
 
