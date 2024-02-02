@@ -50,5 +50,11 @@ namespace BankAppBackend.Service
             customerRepository.UpdateCustomer(customer);
             return existingCustomer;
         }
+
+        public Customer? FindCustomerByApplicantId(long applicantId)
+        {
+            List<Customer> customers = customerRepository.GetAllCustomers();
+            return customers.Find(customer => customer.ApplicantId.Equals(applicantId));
+        }
     }
 }
