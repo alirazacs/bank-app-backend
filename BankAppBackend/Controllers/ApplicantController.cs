@@ -17,7 +17,7 @@ namespace BankAppBackend.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Applicant>> GetAllApplicantsAsync()
+        public ActionResult<IEnumerable<Applicant>> GetAllApplicants()
         {
             // Logic to fetch data and return a response
             return Ok(applicantService.GetAllApplicantList());

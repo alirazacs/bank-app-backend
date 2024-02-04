@@ -31,7 +31,8 @@ namespace BankAppBackend.Service
         private Customer createNewCustomer(Applicant applicant)
         {
             Customer newCustomer = new Customer();
-            newCustomer.ApplicantId = applicant.Id;
+            // TODO : below line is redundant, should be removed.
+            //newCustomer.ApplicantId = applicant.Id;
             newCustomer.Applicant = applicant;
             newCustomer.UserName = "";
             newCustomer.Password = "";

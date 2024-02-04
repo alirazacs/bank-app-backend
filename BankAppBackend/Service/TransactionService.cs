@@ -44,7 +44,7 @@ namespace BankAppBackend.Service
             }
             else if(txn.TransactionType == TransactionType.DEBIT)
             {
-                if (txn.Account.Balance >= txn.Amount)
+                if (txn.Account?.Balance >= txn.Amount)
                 {
 
                     txn.Account.Balance = txn.Account.Balance - txn.Amount;
