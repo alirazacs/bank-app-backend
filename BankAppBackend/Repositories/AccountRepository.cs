@@ -5,15 +5,21 @@ namespace BankAppBackend.Repositories
 {
     public class AccountRepository : IAccountRepository
     {
-        private readonly DatabaseContext databaseContext;  
+        private readonly DatabaseContext _databaseContext;  
         public AccountRepository(DatabaseContext databaseContext) {
-            this.databaseContext = databaseContext;
+            this._databaseContext = databaseContext;
         }
 
-        public void CreateAccount(Account account)
+        public Account CreateAccount(Account account)
         {
-            databaseContext.Accounts.Add(account);
-            databaseContext.SaveChanges();
+            _databaseContext.Accounts.Add(account);
+            _databaseContext.SaveChanges();
+            return account;
+        }
+
+        public Account? GetAccountById(long id)
+        {
+           return  this._databaseContext.Accounts.Find(id);
         }
     }
 }

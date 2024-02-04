@@ -13,19 +13,20 @@ namespace BankAppBackend.Service
             this.applicantService = applicantService;
             this.tellerRepository = tellerRepository;
         }
-        public Applicant? ChangeApplicantStatus(long applicantId, AccountStatus accountStatus, long tellerId)
+        public void ChangeApplicantStatus(long applicantId, AccountStatus accountStatus, long tellerId)
         {
             Teller? teller = tellerRepository.GetTellerById(tellerId);
             if(teller == null)
             {
                 throw new Exception($"Teller not found with id: {tellerId}");
             }
-            return applicantService.UpdateApplicantStatus(applicantId, accountStatus, teller);
+            applicantService.UpdateApplicantStatus(applicantId, accountStatus, teller);
         }
 
-        public List<Teller> GetAllTellers()
+        public Teller? GetTellerById(long id)
         {
-            return tellerRepository.GetAllTellers().ToList();
+            return this.tellerRepository.GetTellerById(id);
+            
         }
     }
 }

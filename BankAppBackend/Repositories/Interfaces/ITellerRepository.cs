@@ -5,6 +5,5 @@ namespace BankAppBackend.Repositories.Interfaces
     public interface ITellerRepository
     {
         public Teller? GetTellerById(long tellerId);
-        public IEnumerable<Teller> GetAllTellers();
     }
 }

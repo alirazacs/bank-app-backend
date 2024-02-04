@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Components;
 
 namespace BankAppBackend.Models
 {
@@ -12,40 +13,14 @@ namespace BankAppBackend.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
         public Guid TransactionId { get; set; }
         public TransactionType TransactionType { get; set; }
-        public double Amount
-        {
-            get { return Amount; }
-            set
-            {
-               
-                if (Account.Balance > value) //100 > 10
-                {
-                    if (TransactionType == TransactionType.CREDIT)
-                    {
-                        Account.Balance = Account.Balance + value; // balance update : 100+10 = 110 remaining
-
-                    }
-                    else if(TransactionType == TransactionType.DEBIT)
-                    {
-                        Account.Balance = Account.Balance - value; // balance update : 100-10 = 90 remaining
-                    }
-
-                    Amount = value; // txn amount = 10
-                    
-                }
-                else
-                {
-                    throw new InvalidOperationException("Insufficient account balance");
-                }
-
-            }
-        }
+        public double Amount{ get; set; }
         public DateTime DateTime { get; set; }
-        public Guid AccountId { get; set; }
+        public long AccountId { get; set; }
         [JsonIgnore]
-        public Account Account { get; set; }
+        public Account? Account { get; set; }
 
 
     }

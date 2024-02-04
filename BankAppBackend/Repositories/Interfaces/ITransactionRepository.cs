@@ -6,6 +6,6 @@ namespace BankAppBackend.Repositories.Interfaces
     {
         public Transaction AddTransaction(Transaction transaction);
         public IEnumerable<Transaction> GetTransactions();
-        public Transaction? GetTransactionById(Guid id);
+        public Transaction? GetTransactionById(long id);
     }
 }

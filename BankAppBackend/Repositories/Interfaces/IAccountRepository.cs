@@ -4,6 +4,8 @@ namespace BankAppBackend.Repositories.Interfaces
 {
     public interface IAccountRepository
     {
-        public void CreateAccount(Account account);
+        public Account CreateAccount(Account account);
+        public Account GetAccountById(long id);
+
     }
 }

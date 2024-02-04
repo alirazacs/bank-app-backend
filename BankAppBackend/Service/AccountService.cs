@@ -6,21 +6,25 @@ namespace BankAppBackend.Service
 {
     public class AccountService : IAccountService
     {
-        private IAccountRepository accountRepository;
+        private IAccountRepository _accountRepository;
         public AccountService(IAccountRepository accountRepository)
         {
-            this.accountRepository = accountRepository;
+            this._accountRepository = accountRepository;
         }
         public Account CreateNewAccount(Customer customer)
         {
             Account account = new Account();
+            account.AccountId = Guid.NewGuid();
             account.AccountType = customer.Applicant.AccountType;
-            account.Balance = 0.00;
-            account.CustomerId = customer.CustomerId;
             account.Customer = customer;
-            accountRepository.CreateAccount(account);
-            customer.Accounts.Add(account);
+            account = _accountRepository.CreateAccount(account);
             return account;
+        }
+
+        public Account GetAccountById(long id)
+        {
+            return this._accountRepository.GetAccountById(id);
+            
         }
     }
 }

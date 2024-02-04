@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BankAppBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class addedTxn : Migration
+    public partial class updatedMig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -73,6 +73,8 @@ namespace BankAppBackend.Migrations
                 name: "Accounts",
                 columns: table => new
                 {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AccountType = table.Column<int>(type: "int", nullable: false),
                     Balance = table.Column<double>(type: "float", nullable: false),
@@ -80,7 +82,7 @@ namespace BankAppBackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Accounts", x => x.AccountId);
+                    table.PrimaryKey("PK_Accounts", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Accounts_Customers_CustomerId",
                         column: x => x.CustomerId,
@@ -90,23 +92,25 @@ namespace BankAppBackend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Transaction",
+                name: "transactions",
                 columns: table => new
                 {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     TransactionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TransactionType = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<double>(type: "float", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    AccountId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Transaction", x => x.TransactionId);
+                    table.PrimaryKey("PK_transactions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Transaction_Accounts_AccountId",
+                        name: "FK_transactions_Accounts_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Accounts",
-                        principalColumn: "AccountId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -133,8 +137,8 @@ namespace BankAppBackend.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transaction_AccountId",
-                table: "Transaction",
+                name: "IX_transactions_AccountId",
+                table: "transactions",
                 column: "AccountId");
         }
 
@@ -142,7 +146,7 @@ namespace BankAppBackend.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Transaction");
+                name: "transactions");
 
             migrationBuilder.DropTable(
                 name: "Accounts");

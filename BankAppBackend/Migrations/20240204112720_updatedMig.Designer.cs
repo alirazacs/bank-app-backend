@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankAppBackend.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240202065231_addedTxn")]
-    partial class addedTxn
+    [Migration("20240204112720_updatedMig")]
+    partial class updatedMig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,8 +27,13 @@ namespace BankAppBackend.Migrations
 
             modelBuilder.Entity("BankAppBackend.Models.Account", b =>
                 {
-                    b.Property<Guid>("AccountId")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<Guid>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AccountType")
@@ -40,7 +45,7 @@ namespace BankAppBackend.Migrations
                     b.Property<long>("CustomerId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("AccountId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
 
@@ -136,12 +141,14 @@ namespace BankAppBackend.Migrations
 
             modelBuilder.Entity("BankAppBackend.Models.Transaction", b =>
                 {
-                    b.Property<Guid>("TransactionId")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("bigint");
 
-                    b.Property<Guid>("AccountId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("AccountId")
+                        .HasColumnType("bigint");
 
                     b.Property<double>("Amount")
                         .HasColumnType("float");
@@ -149,14 +156,17 @@ namespace BankAppBackend.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("TransactionId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("TransactionType")
                         .HasColumnType("int");
 
-                    b.HasKey("TransactionId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("Transaction");
+                    b.ToTable("transactions");
                 });
 
             modelBuilder.Entity("BankAppBackend.Models.Account", b =>

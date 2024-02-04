@@ -23,9 +23,13 @@ namespace BankAppBackend.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Transaction> GetTransactionById(Guid id)
+        public ActionResult<Transaction> GetTransactionById(long id)
         {
             Transaction? txn = this._transactionService.GetTransactionById(id);
+            if (txn == null)
+            {
+                return NotFound($"Transaction not found with id {id}");
+            }
             return Ok(new { message = "Transaction Retrieved successfully", data = txn });
         }
 

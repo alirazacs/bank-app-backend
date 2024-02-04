@@ -8,6 +8,7 @@ namespace BankAppBackend.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
         public Guid AccountId {  get; set; }
         public AccountType AccountType { get; set; }
         public double Balance { get; set; } = 0.00;

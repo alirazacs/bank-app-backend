@@ -16,7 +16,7 @@ namespace BankAppBackend.Repositories
             this._databaseContext.SaveChanges();
             return transaction;
         }
-        public Transaction? GetTransactionById(Guid id)
+        public Transaction? GetTransactionById(long id)
         {
             return _databaseContext.transactions.Find(id);
         }
