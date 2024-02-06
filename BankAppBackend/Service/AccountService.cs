@@ -21,7 +21,7 @@ namespace BankAppBackend.Service
             return account;
         }
 
-        public Account GetAccountById(long id)
+        public Account GetAccountById(Guid id)
         {
             return this._accountRepository.GetAccountById(id);
             

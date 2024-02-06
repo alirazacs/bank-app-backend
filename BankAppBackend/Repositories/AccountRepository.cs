@@ -17,7 +17,7 @@ namespace BankAppBackend.Repositories
             return account;
         }
 
-        public Account? GetAccountById(long id)
+        public Account? GetAccountById(Guid id)
         {
            return  this._databaseContext.Accounts.Find(id);
         }

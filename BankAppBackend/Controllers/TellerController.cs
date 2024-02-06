@@ -15,10 +15,10 @@ namespace BankAppBackend.Controllers
             tellerSevice = applicantService;
         }
 
-        [HttpPut("changeStatus")]
-        public ActionResult ChangeApplicantStatus(long applicantId, AccountStatus accountStatus, long tellerId )
+        [HttpPut("changeStatus/{applicantId}")]
+        public ActionResult ChangeApplicantStatus(long applicantId, [FromBody] ApplicantStatus accountStatus)
         {
-            tellerSevice.ChangeApplicantStatus(applicantId, accountStatus, tellerId);
+            tellerSevice.ChangeApplicantStatus(applicantId, accountStatus.AccountStatus, accountStatus.TellerId);
             return Ok(new {message="Applicant Status has been updated successfully."});
         }
 
