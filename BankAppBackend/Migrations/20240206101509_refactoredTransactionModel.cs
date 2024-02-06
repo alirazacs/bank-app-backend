@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BankAppBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class updatedMig : Migration
+    public partial class refactoredTransactionModel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -73,8 +73,6 @@ namespace BankAppBackend.Migrations
                 name: "Accounts",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AccountType = table.Column<int>(type: "int", nullable: false),
                     Balance = table.Column<double>(type: "float", nullable: false),
@@ -82,7 +80,7 @@ namespace BankAppBackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Accounts", x => x.Id);
+                    table.PrimaryKey("PK_Accounts", x => x.AccountId);
                     table.ForeignKey(
                         name: "FK_Accounts_Customers_CustomerId",
                         column: x => x.CustomerId,
@@ -95,22 +93,20 @@ namespace BankAppBackend.Migrations
                 name: "transactions",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     TransactionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TransactionType = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<double>(type: "float", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AccountId = table.Column<long>(type: "bigint", nullable: false)
+                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_transactions", x => x.Id);
+                    table.PrimaryKey("PK_transactions", x => x.TransactionId);
                     table.ForeignKey(
                         name: "FK_transactions_Accounts_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Accounts",
-                        principalColumn: "Id",
+                        principalColumn: "AccountId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
