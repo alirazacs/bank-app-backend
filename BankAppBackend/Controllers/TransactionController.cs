@@ -16,7 +16,7 @@ namespace BankAppBackend.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Applicant> AddTransaction([FromBody] Transaction transaction)
+        public ActionResult<Applicant> AddTransaction([FromBody] TransactionExtended transaction)
         {
             Transaction savedtxn = this._transactionService.AddTransaction(transaction);
             return Ok(new { message = "Transaction Added successfully", data = savedtxn });

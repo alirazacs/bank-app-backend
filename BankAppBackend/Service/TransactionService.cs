@@ -14,13 +14,51 @@ namespace BankAppBackend.Service
             this._transactionRepository = transactionRepository;
             this._accountService = accountService;
         }
-        public Transaction AddTransaction(Transaction transaction)
+        public Transaction AddTransaction(TransactionExtended transaction)
+        {
+            if(transaction.TransactionType.Equals(TransactionType.CREDIT))
+            {
+                return processCreditTransaction(transaction);
+            }
+            else
+            {
+                Account senderAccount = this._accountService.GetAccountById(transaction.AccountId);
+                Account receiverAccount = this._accountService.GetAccountById(transaction.DepositorAccountId.Value);
+                return processTransferTransaction(transaction, senderAccount, receiverAccount);
+            }
+
+        }
+
+        private Transaction processCreditTransaction(Transaction transaction)
         {
             Account account = this._accountService.GetAccountById(transaction.AccountId);
             transaction.Account = account;
-            transaction.TransactionId = Guid.NewGuid();
             transaction.Amount = ValidateAmountAndReturn(transaction);
+            transaction.DateTime = DateTime.Now;
             return this._transactionRepository.AddTransaction(transaction);
+        }
+
+        private Transaction processTransferTransaction(TransactionExtended transactionExtended, Account senderAccount, Account receiverAccount)
+        {
+            Transaction senderTransaction = new Transaction();
+            senderTransaction.TransactionType = transactionExtended.TransactionType;
+            senderTransaction.Amount = transactionExtended.Amount;
+            senderTransaction.Account = senderAccount;
+            senderTransaction.Amount = ValidateAmountAndReturn(senderTransaction);
+            senderTransaction.DateTime = DateTime.Now;
+            
+            this._transactionRepository.AddTransaction(senderTransaction);
+
+            Transaction receiverTransaction = new Transaction();
+            receiverTransaction.TransactionType = TransactionType.CREDIT;
+            receiverTransaction.Account = receiverAccount;
+            receiverTransaction.Amount = transactionExtended.Amount;
+            receiverTransaction.Amount = ValidateAmountAndReturn(receiverTransaction);
+            receiverTransaction.DateTime = DateTime.Now;
+            
+            this._transactionRepository.AddTransaction(receiverTransaction);
+            
+            return senderTransaction;
         }
 
         public Transaction? GetTransactionById(long id)
@@ -42,7 +80,7 @@ namespace BankAppBackend.Service
                 }
 
             }
-            else if(txn.TransactionType == TransactionType.DEBIT)
+            else if(txn.TransactionType == TransactionType.TRANSFER)
             {
                 if (txn.Account?.Balance >= txn.Amount)
                 {

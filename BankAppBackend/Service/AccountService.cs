@@ -23,8 +23,11 @@ namespace BankAppBackend.Service
 
         public Account GetAccountById(Guid id)
         {
-            return this._accountRepository.GetAccountById(id);
-            
+            Account account = _accountRepository.GetAccountById(id);
+            if(account == null) {
+                throw new Exception($"Account does not exist with account id : {id}");
+            }
+            return account;
         }
     }
 }

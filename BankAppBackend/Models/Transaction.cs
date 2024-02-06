@@ -7,7 +7,7 @@ namespace BankAppBackend.Models
 {
     public enum TransactionType
     {
-        CREDIT,DEBIT
+        CREDIT,TRANSFER
     }
     public class Transaction
     {
@@ -22,5 +22,10 @@ namespace BankAppBackend.Models
         public Account? Account { get; set; }
 
 
+    }
+
+    public class TransactionExtended : Transaction
+    {
+        public Guid? DepositorAccountId { get; set; }
     }
 }
