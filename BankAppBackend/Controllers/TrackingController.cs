@@ -14,6 +14,10 @@ namespace BankAppBackend.Controllers
             RedisMessagePublisherService = redisMessagePublisherService;
         }
 
+        /// <summary>
+        /// Sends a message to the "bank-account-status-changed-channel" channel on Redis. (Built for interactive testing purposes)
+        /// </summary>
+        /// <param name="message">The message to be sent.</param>
         [HttpPost]
         public async Task SendMessage([FromBody] string message)
         {
