@@ -65,8 +65,8 @@ namespace BankAppBackend.Service
 
             //preparing model to send on queue for another MVC App.
             ApplicantMessagesModel applicantMessageModel = new ApplicantMessagesModel();
-            applicantMessageModel.ApplicantId = (int)applicant.Id;
-            applicantMessageModel.message = $"Dear Applicant {applicant.ApplicateName}, your status has been updated to {accountStatus}";
+            applicantMessageModel.ApplicantId = applicant.Id;
+            applicantMessageModel.Message = $"Dear Applicant {applicant.ApplicateName}, your status has been updated to {accountStatus}";
             redisMessagePublisherService.sendMessage(applicantMessageModel);
         }
     }
