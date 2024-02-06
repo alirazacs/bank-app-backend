@@ -1,5 +1,5 @@
 ﻿using BankAppBackend.Models;
-using BankAppBackend.Service;
+using BankAppBackend.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,10 +16,18 @@ namespace BankAppBackend.Controllers
         }
 
         [HttpPut("changeStatus")]
-        public Applicant? GetApplicants(long applicantId, AccountStatus accountStatus )
+        public ActionResult ChangeApplicantStatus(long applicantId, AccountStatus accountStatus, long tellerId )
         {
-            return tellerSevice.ChangeApplicantStatus(applicantId, accountStatus);
+            tellerSevice.ChangeApplicantStatus(applicantId, accountStatus, tellerId);
+            return Ok(new {message="Applicant Status has been updated successfully."});
         }
+
+        [HttpGet("{id}")]
+        public ActionResult<Teller> GetTellerById(long id)
+        {
+            return tellerSevice.GetTellerById(id);
+        }
+
         
 
     }

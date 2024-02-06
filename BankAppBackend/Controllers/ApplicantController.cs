@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BankAppBackend.Models;
 using Microsoft.EntityFrameworkCore;
-using BankAppBackend.Service;
+using BankAppBackend.Service.Interfaces;
 
 namespace BankAppBackend.Controllers
 {
-    [Route("api/user")]
+    [Route("api/applicant")]
     [ApiController]
     public class ApplicantController : ControllerBase
     {
-        private IApplicantService applicantService;
+        private readonly IApplicantService applicantService;
         
         public ApplicantController(IApplicantService applicantService)
         {
@@ -17,7 +17,7 @@ namespace BankAppBackend.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Applicant>> GetAllApplicantsAsync()
+        public ActionResult<IEnumerable<Applicant>> GetAllApplicants()
         {
             // Logic to fetch data and return a response
             return Ok(applicantService.GetAllApplicantList());
@@ -37,9 +37,9 @@ namespace BankAppBackend.Controllers
         [HttpPost]
         public ActionResult<Applicant> AddApplicant([FromBody] Applicant applicant)
         {
-            applicantService.AddApplicant(applicant);
+           Applicant savedApplicant =  applicantService.AddApplicant(applicant);
 
-            return Ok(new { message = "Applicant Added successfully", data = applicant });
+            return Ok(new { message = "Applicant Added successfully", data = savedApplicant });
         }
 
     }

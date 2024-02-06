@@ -1,4 +1,5 @@
-﻿using BankAppBackend.Service;
+﻿using BankAppBackend.Service.Interfaces;
+using BankTrackingSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankAppBackend.Controllers
@@ -19,7 +20,7 @@ namespace BankAppBackend.Controllers
         /// </summary>
         /// <param name="message">The message to be sent.</param>
         [HttpPost]
-        public async Task SendMessage([FromBody] string message)
+        public async Task SendMessage([FromBody] ApplicantMessagesModel message)
         {
             await RedisMessagePublisherService.sendMessage(message);
         }

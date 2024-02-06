@@ -1,6 +1,10 @@
 ﻿using BankAppBackend.Models;
+using BankAppBackend.Service.Interfaces;
+using BankTrackingSystem.Models;
 using StackExchange.Redis;
-
+using System;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 namespace BankAppBackend.Service
 {
     public class RedisMessagePublisherService : IRedisMessagePublisherService
@@ -26,15 +30,15 @@ namespace BankAppBackend.Service
             return ConnectionMultiplexer.Connect(connectionStringsOptions.RedisConnectionString);
         }
 
-        public async Task sendMessage(string message)
+        public async Task sendMessage(ApplicantMessagesModel applicantMessagesModel)
         {
             IConnectionMultiplexer connectionMultiplexer = EstablishRedisConnection();
             ISubscriber subscriber = connectionMultiplexer.GetSubscriber();
 
             try
             {
-                _logger.LogInformation("{time} -- Message Published: {message}", DateTimeOffset.Now, message);
-                await subscriber.PublishAsync(Channel, message);
+                _logger.LogInformation("{time} -- Message Published: {message}", DateTimeOffset.Now, applicantMessagesModel);
+                await subscriber.PublishAsync(Channel,JsonConvert.SerializeObject(applicantMessagesModel));
             }
             catch (Exception ex)
             {

@@ -1,4 +1,6 @@
 ﻿using BankAppBackend.Models;
+using BankAppBackend.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankAppBackend.Repositories
 {
@@ -9,24 +11,33 @@ namespace BankAppBackend.Repositories
         {
             _databaseContext = databaseContext;
         }
-        public void AddApplicant(Applicant applicant)
+        public Applicant AddApplicant(Applicant applicant)
         {
-            _databaseContext.applicants.Add(applicant);
+            _databaseContext.Applicants.Add(applicant);
             _databaseContext.SaveChanges();
+            return applicant;
+        }
+
+        public Applicant? FindApplicantByCNIC(string cnic)
+        {
+            List<Applicant> applicantsList = GetApplicants().ToList();
+            return applicantsList.Find(app => app.CNIC.Equals(cnic));
         }
 
         public Applicant? findApplicantById(long applicantId)
         {
-            return _databaseContext.applicants.Find(applicantId);
+            List<Applicant> applicantsList = GetApplicants().ToList();
+            return applicantsList.Find(applicant=>applicant.Id.Equals(applicantId));
         }
 
         public IEnumerable<Applicant> GetApplicants()
         {
-            return _databaseContext.applicants;
+            return _databaseContext.Applicants.Include(a => a.Teller).Include(a=>a.Customer);
         }
 
         public void UpdateApplicant(Applicant applicant) {
-            _databaseContext.applicants.Update(applicant);
+            _databaseContext.Applicants.Update(applicant);
+            _databaseContext.SaveChanges();
         }
 
     }

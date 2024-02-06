@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace BankAppBackend.Models
 {
@@ -9,7 +10,7 @@ namespace BankAppBackend.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         public string Name { get; set; } = "DummyTeller";
-
-        //public List<Applicant> applicants{ get; set; }   
+        [JsonIgnore]
+        public ICollection<Applicant>? Applicants { get; set; }
     }
 }

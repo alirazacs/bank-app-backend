@@ -1,7 +1,8 @@
-using BankAppBackend;
 using BankAppBackend.Models;
 using BankAppBackend.Repositories;
+using BankAppBackend.Repositories.Interfaces;
 using BankAppBackend.Service;
+using BankAppBackend.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,8 +16,15 @@ builder.Services.AddSwaggerGen();
 string connectionString = builder.Configuration.GetConnectionString("SQLConnectionString") ?? throw new InvalidOperationException("Connection string of name SQLConnectionString not found");
 builder.Services.AddDbContext<DatabaseContext>(conn => conn.UseSqlServer(connectionString));
 builder.Services.AddScoped<IApplicantRepository, ApplicantRepository>();
+builder.Services.AddTransient<ITellerRepository, TellerRepository>();
+builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
+builder.Services.AddTransient<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<ITransactionRepository, TranscationRepository>();
 builder.Services.AddScoped<IApplicantService, ApplicantService>();
 builder.Services.AddScoped<ITellerService, TellerService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IRedisMessagePublisherService, RedisMessagePublisherService>();
 var app = builder.Build();
 
