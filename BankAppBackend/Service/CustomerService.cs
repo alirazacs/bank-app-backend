@@ -1,4 +1,5 @@
-﻿using BankAppBackend.Models;
+﻿using BankAppBackend.Exceptions;
+using BankAppBackend.Models;
 using BankAppBackend.Repositories;
 using BankAppBackend.Repositories.Interfaces;
 using BankAppBackend.Service.Interfaces;
@@ -19,7 +20,7 @@ namespace BankAppBackend.Service
             Customer existingCustomer = customerRepository.GetAllCustomers().FirstOrDefault(c => c.ApplicantId.Equals(applicant.Id)); ;
             if(existingCustomer != null)
             {
-                throw new Exception($"Customer already exist with id {existingCustomer.CustomerId}");
+                throw new EntityAlreadyExist($"Customer already exist with id {existingCustomer.CustomerId}");
             }
 
             Customer customer = createNewCustomer(applicant);
@@ -46,7 +47,7 @@ namespace BankAppBackend.Service
             Customer existingCustomer = customerRepository.GetAllCustomers().FirstOrDefault(c => c.CustomerId.Equals(customer.CustomerId));
             if(existingCustomer == null)
             {
-                throw new Exception($"Customer with id {customer.CustomerId} does not exist");
+                throw new EntityNotFound($"Customer with id {customer.CustomerId} does not exist");
             }
             customerRepository.UpdateCustomer(customer);
             return existingCustomer;

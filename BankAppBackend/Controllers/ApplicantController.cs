@@ -2,6 +2,7 @@
 using BankAppBackend.Models;
 using Microsoft.EntityFrameworkCore;
 using BankAppBackend.Service.Interfaces;
+using BankAppBackend.Exceptions;
 
 namespace BankAppBackend.Controllers
 {
@@ -26,16 +27,39 @@ namespace BankAppBackend.Controllers
         [HttpGet("{id}")]
         public  ActionResult<Applicant> FindApplicantById(long id)
         {
-            var applicant = applicantService.GetApplicantById(id);
-            return Ok(applicant);
+            try
+            {
+                var applicant = applicantService.GetApplicantById(id);
+                return Ok(applicant);
+            }
+            catch(Exception exception)
+            {
+                Console.WriteLine(exception.ToString());
+                if (exception.GetType().Equals(typeof(EntityNotFound)))
+                {
+                    return NotFound(exception.Message);
+                }
+                return BadRequest(exception.Message);   
+            }
         }
 
         [HttpPost]
         public ActionResult<Applicant> AddApplicant([FromBody] Applicant applicant)
         {
-           Applicant savedApplicant =  applicantService.AddApplicant(applicant);
-
-            return Ok(new { message = "Applicant Added successfully", data = savedApplicant });
+            try
+            {
+                Applicant savedApplicant = applicantService.AddApplicant(applicant);
+                return Ok(savedApplicant);
+            }
+            catch(Exception exception)
+            {
+                Console.WriteLine(exception.ToString());
+                if (exception.GetType().Equals (typeof(EntityAlreadyExist)))
+                {
+                    return Conflict(exception.Message);
+                }
+                return BadRequest(exception.Message);
+            }
         }
 
     }

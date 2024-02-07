@@ -1,4 +1,5 @@
-﻿using BankAppBackend.Models;
+﻿using BankAppBackend.Exceptions;
+using BankAppBackend.Models;
 using BankAppBackend.Repositories.Interfaces;
 using BankAppBackend.Service.Interfaces;
 using BankTrackingSystem.Models;
@@ -24,7 +25,7 @@ namespace BankAppBackend.Service
             //Teller teller = this.tellerService.GetTellerById(applicant.TellerId);
             if (applicantRepository.FindApplicantByCNIC(applicant.CNIC) != null)
             {
-                throw new Exception($"Applicant already exist with CNIC number : {applicant.CNIC}");
+                throw new EntityAlreadyExist($"Applicant already exist with CNIC number : {applicant.CNIC}");
             }
             applicant.AccountStatus = AccountStatus.PENDING;
             //applicant.Teller = teller;
@@ -42,7 +43,7 @@ namespace BankAppBackend.Service
             Applicant applicant = applicantRepository.findApplicantById(applicantId);
             if(applicant == null)
             {
-                throw new Exception($"Applicant not found with applicant id :{applicantId}");
+                throw new EntityNotFound($"Applicant not found with applicant id :{applicantId}");
             }
             return applicant;
         }
@@ -52,12 +53,12 @@ namespace BankAppBackend.Service
             Applicant? applicant = GetApplicantById(applicantId);
             if (applicant == null)
             {
-                throw new Exception($"Applicant with id {applicantId} not found");
+                throw new EntityNotFound($"Applicant with id {applicantId} not found");
             }
 
             if (customerService.FindCustomerByApplicantId(applicantId) != null)
             {
-                throw new Exception($"Customer with applicant id {applicantId} already exist");
+                throw new EntityAlreadyExist($"Customer with applicant id {applicantId} already exist");
             }
             applicant.Teller = teller;
             applicant.AccountStatus = accountStatus;

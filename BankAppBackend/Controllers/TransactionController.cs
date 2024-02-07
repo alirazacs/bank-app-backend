@@ -1,4 +1,5 @@
-﻿using BankAppBackend.Models;
+﻿using BankAppBackend.Exceptions;
+using BankAppBackend.Models;
 using BankAppBackend.Repositories;
 using BankAppBackend.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -18,19 +19,39 @@ namespace BankAppBackend.Controllers
         [HttpPost]
         public ActionResult<Applicant> AddTransaction([FromBody] TransactionExtended transaction)
         {
-            Transaction savedtxn = this._transactionService.AddTransaction(transaction);
-            return Ok(savedtxn);
+            try
+            {
+                return Ok(this._transactionService.AddTransaction(transaction));
+            }
+            catch(Exception exception)
+            {
+                Console.Write(exception.ToString());
+                if(exception.GetType().Equals(typeof(EntityNotFound)))
+                {
+                    return NotFound(exception.Message);
+                }
+                return BadRequest(exception.Message);
+            }
+            
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Transaction> GetTransactionById(long id)
+        public ActionResult<Transaction> GetTransactionById(Guid id)
         {
-            Transaction? txn = this._transactionService.GetTransactionById(id);
-            if (txn == null)
+            try
             {
-                return NotFound($"Transaction not found with id {id}");
+                return Ok(this._transactionService.GetTransactionById(id));
             }
-            return Ok(txn);
+            catch(Exception exception)
+            {
+                Console.WriteLine(exception.ToString());
+                if(exception.GetType() == typeof(EntityNotFound))
+                {
+                    return NotFound(exception.Message);
+                }
+
+                return BadRequest(exception.Message);
+            }
         }
 
         [HttpGet]

@@ -1,4 +1,5 @@
-﻿using BankAppBackend.Models;
+﻿using BankAppBackend.Exceptions;
+using BankAppBackend.Models;
 using BankAppBackend.Repositories.Interfaces;
 using BankAppBackend.Service.Interfaces;
 
@@ -18,15 +19,19 @@ namespace BankAppBackend.Service
             Teller? teller = tellerRepository.GetTellerById(tellerId);
             if(teller == null)
             {
-                throw new Exception($"Teller not found with id: {tellerId}");
+                throw new EntityNotFound($"Teller not found with id: {tellerId}");
             }
             applicantService.UpdateApplicantStatus(applicantId, accountStatus, teller);
         }
 
         public Teller? GetTellerById(long id)
         {
-            return this.tellerRepository.GetTellerById(id);
-            
+            Teller teller = this.tellerRepository.GetTellerById(id);
+            if(teller == null)
+            {
+                throw new EntityNotFound($"Teller not found with teller id {id}");
+            }
+            return teller;
         }
     }
 }

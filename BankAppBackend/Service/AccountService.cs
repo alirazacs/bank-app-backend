@@ -1,4 +1,5 @@
-﻿using BankAppBackend.Models;
+﻿using BankAppBackend.Exceptions;
+using BankAppBackend.Models;
 using BankAppBackend.Repositories.Interfaces;
 using BankAppBackend.Service.Interfaces;
 
@@ -25,7 +26,7 @@ namespace BankAppBackend.Service
         {
             Account account = _accountRepository.GetAccountById(id);
             if(account == null) {
-                throw new Exception($"Account does not exist with account id : {id}");
+                throw new EntityNotFound($"Account does not exist with account id : {id}");
             }
             return account;
         }

@@ -4,4 +4,9 @@
     {
         public EntityAlreadyExist(string exceptionMessage):base(exceptionMessage) { }
     }
+
+    public class EntityNotFound : Exception
+    {
+        public EntityNotFound(string exceptionMessage):base(exceptionMessage) { }
+    }
 }

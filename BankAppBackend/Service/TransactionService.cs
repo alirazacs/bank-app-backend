@@ -1,4 +1,5 @@
-﻿using BankAppBackend.Models;
+﻿using BankAppBackend.Exceptions;
+using BankAppBackend.Models;
 using BankAppBackend.Repositories.Interfaces;
 using BankAppBackend.Service.Interfaces;
 
@@ -61,9 +62,14 @@ namespace BankAppBackend.Service
             return senderTransaction;
         }
 
-        public Transaction? GetTransactionById(long id)
+        public Transaction? GetTransactionById(Guid id)
         {
-           return this._transactionRepository.GetTransactionById(id);
+            Transaction transaction = this._transactionRepository.GetTransactionById(id);
+            if(transaction == null) {
+                throw new EntityNotFound($"Transaction not found against transaction id {id}");
+            }
+
+            return transaction;
         }
 
         public double ValidateAmountAndReturn(Transaction txn)
