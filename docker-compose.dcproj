@@ -4,9 +4,9 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
-    <ProjectGuid>5b1cdc9d-725b-4520-81ca-7d15a8051e98</ProjectGuid>
+    <ProjectGuid>4158d5f5-c948-4fe1-8175-8ee71555902f</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://{ServiceIPAddress}{ServicePort}/swagger</DockerServiceUrl>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>bankappbackend</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>

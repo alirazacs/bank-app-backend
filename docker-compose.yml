@@ -5,4 +5,12 @@ services:
     image: ${DOCKER_REGISTRY-}bankappbackend
     build:
       context: .
-      dockerfile: BankAppBackend\Dockerfile
+      dockerfile: BankAppBackend/Dockerfile
+  sql:
+    image: mcr.microsoft.com/mssql/server
+    container_name: sqlserver
+    environment:
+      SA_PASSWORD: "YourStrong@Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
