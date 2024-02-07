@@ -19,7 +19,7 @@ namespace BankAppBackend.Controllers
         public ActionResult ChangeApplicantStatus(long applicantId, [FromBody] ApplicantStatus accountStatus)
         {
             tellerSevice.ChangeApplicantStatus(applicantId, accountStatus.AccountStatus, accountStatus.TellerId);
-            return Ok(new {message="Applicant Status has been updated successfully."});
+            return Ok();
         }
 
         [HttpGet("{id}")]

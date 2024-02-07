@@ -37,9 +37,14 @@ namespace BankAppBackend.Service
             return applicantRepository.GetApplicants().ToList();
         }
 
-        public Applicant? GetApplicantById(long applicantId)
+        public Applicant GetApplicantById(long applicantId)
         {
-            return applicantRepository.findApplicantById(applicantId);
+            Applicant applicant = applicantRepository.findApplicantById(applicantId);
+            if(applicant == null)
+            {
+                throw new Exception($"Applicant not found with applicant id :{applicantId}");
+            }
+            return applicant;
         }
 
         public void UpdateApplicantStatus(long applicantId, AccountStatus accountStatus, Teller teller)

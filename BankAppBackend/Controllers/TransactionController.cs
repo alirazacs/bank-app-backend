@@ -19,7 +19,7 @@ namespace BankAppBackend.Controllers
         public ActionResult<Applicant> AddTransaction([FromBody] TransactionExtended transaction)
         {
             Transaction savedtxn = this._transactionService.AddTransaction(transaction);
-            return Ok(new { message = "Transaction Added successfully", data = savedtxn });
+            return Ok(savedtxn);
         }
 
         [HttpGet("{id}")]
@@ -30,14 +30,14 @@ namespace BankAppBackend.Controllers
             {
                 return NotFound($"Transaction not found with id {id}");
             }
-            return Ok(new { message = "Transaction Retrieved successfully", data = txn });
+            return Ok(txn);
         }
 
         [HttpGet]
         public ActionResult<List<Transaction>> GetAllTranscation()
         {
             IEnumerable<Transaction> txnList = this._transactionService.GetTransactions();
-            return Ok(new { message = "Transaction Retrieved successfully", data = txnList });
+            return Ok(txnList);
         }
     }
 }

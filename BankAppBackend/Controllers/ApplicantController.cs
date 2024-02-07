@@ -27,10 +27,6 @@ namespace BankAppBackend.Controllers
         public  ActionResult<Applicant> FindApplicantById(long id)
         {
             var applicant = applicantService.GetApplicantById(id);
-            if (applicant == null)
-            {
-                return NotFound($"applicant not found with id {id}");
-            }
             return Ok(applicant);
         }
 
