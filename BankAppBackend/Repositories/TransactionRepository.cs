@@ -18,7 +18,7 @@ namespace BankAppBackend.Repositories
         }
         public Transaction? GetTransactionById(Guid id)
         {
-            return _databaseContext.transactions.Find(id);
+            return _databaseContext.transactions.FirstOrDefault(transaction=>transaction.TransactionId.Equals(id));
         }
 
         public IEnumerable<Transaction> GetTransactions()

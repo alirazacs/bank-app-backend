@@ -28,11 +28,11 @@ namespace BankAppBackend.Controllers
             catch (Exception exception)
             {
                 Console.WriteLine(exception.ToString());
-                if (exception.GetType().Equals(typeof(EntityNotFound)))
+                if (exception is EntityNotFound)
                 {
                     return NotFound(exception.Message);
                 }
-                else if (exception.GetType().Equals(typeof(EntityNotFound)))
+                else if (exception is EntityNotFound)
                 {
                     return Conflict(exception.Message);
                 }
@@ -50,13 +50,30 @@ namespace BankAppBackend.Controllers
             catch(Exception exception)
             {
                 Console.WriteLine(exception.ToString());
-                if(exception.GetType().Equals(typeof(EntityNotFound)))
+                if(exception is EntityNotFound)
                 {
                     return NotFound(exception.Message);
                 }
                 return BadRequest(exception.Message);
             }
 
+        }
+        [HttpPost]
+
+        public ActionResult<Teller> RegisterTeller(Teller teller)
+        {
+            try
+            {
+                return tellerSevice.RegisterTeller(teller);
+            }
+            catch(Exception exception)
+            {
+                if(exception is EntityAlreadyExist)
+                {
+                    return Conflict(exception.Message);
+                }
+                return BadRequest(exception.Message);
+            } 
         }
 
         

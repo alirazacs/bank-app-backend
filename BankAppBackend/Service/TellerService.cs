@@ -17,7 +17,7 @@ namespace BankAppBackend.Service
         public void ChangeApplicantStatus(long applicantId, AccountStatus accountStatus, long tellerId)
         {
             Teller? teller = tellerRepository.GetTellerById(tellerId);
-            if(teller == null)
+            if (teller == null)
             {
                 throw new EntityNotFound($"Teller not found with id: {tellerId}");
             }
@@ -26,12 +26,21 @@ namespace BankAppBackend.Service
 
         public Teller? GetTellerById(long id)
         {
-            Teller teller = this.tellerRepository.GetTellerById(id);
-            if(teller == null)
+            Teller? teller = this.tellerRepository.GetTellerById(id);
+            if (teller == null)
             {
                 throw new EntityNotFound($"Teller not found with teller id {id}");
             }
             return teller;
+        }
+
+        public Teller RegisterTeller(Teller teller)
+        {
+            if (tellerRepository.GetTellerByEmailAddress(teller.EmailAddress) != null)
+            {
+                throw new EntityAlreadyExist($"Teller already exist with email address {teller.EmailAddress}");
+            }
+            return tellerRepository.RegisterTeller(teller);
         }
     }
 }

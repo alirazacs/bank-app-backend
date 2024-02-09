@@ -20,14 +20,17 @@ namespace BankAppBackend.Repositories
 
         public Applicant? FindApplicantByCNIC(string cnic)
         {
-            List<Applicant> applicantsList = GetApplicants().ToList();
-            return applicantsList.Find(app => app.CNIC.Equals(cnic));
+            return _databaseContext.Applicants.FirstOrDefault(applicant=>applicant.CNIC.Equals(cnic));
+        }
+
+        public Applicant? FindApplicantByEmailAddress(string emailAddress)
+        {
+            return _databaseContext.Applicants.FirstOrDefault(applicant => applicant.Id.Equals(emailAddress));
         }
 
         public Applicant? findApplicantById(long applicantId)
         {
-            List<Applicant> applicantsList = GetApplicants().ToList();
-            return applicantsList.Find(applicant=>applicant.Id.Equals(applicantId));
+            return _databaseContext.Applicants.FirstOrDefault(applicant => applicant.Id.Equals(applicantId));
         }
 
         public IEnumerable<Applicant> GetApplicants()

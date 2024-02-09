@@ -18,11 +18,13 @@ namespace BankAppBackend.Models
             modelBuilder.Entity<Applicant>(applicant =>
             {
                 applicant.HasIndex(customer => customer.CNIC).IsUnique(true);
+                applicant.HasIndex(customer => customer.EmailAddress).IsUnique(true);  
             });
 
             // teller - applicants one-to-many relation
             modelBuilder.Entity<Teller>(tellerEntity =>
             {
+                tellerEntity.HasIndex(teller=>teller.EmailAddress).IsUnique(true);
                 tellerEntity.HasMany(teller => teller.Applicants)
                 .WithOne(applicant => applicant.Teller)
                 .HasForeignKey(applicant => applicant.TellerId);

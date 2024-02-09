@@ -12,12 +12,24 @@ namespace BankAppBackend.Repositories
         }
         public Teller? GetTellerById(long tellerId)
         {
-            return _databaseContext.Tellers.Find(tellerId);
+            return _databaseContext.Tellers.FirstOrDefault(t => t.Id.Equals(tellerId));
         }
 
         public IEnumerable<Teller> GetAllTellers() {
             return _databaseContext.Tellers;
         }
 
+        public Teller RegisterTeller(Teller teller)
+        {
+            _databaseContext.Tellers.Add(teller);
+            _databaseContext.SaveChanges();
+            return teller;
+        }
+
+        public Teller? GetTellerByEmailAddress(string emailAddress)
+        {
+            return _databaseContext.Tellers.FirstOrDefault(t => t.EmailAddress.Equals(emailAddress));
+
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace BankAppBackend.Repositories.Interfaces
         public Applicant? findApplicantById(long applicantId);
         public void UpdateApplicant(Applicant applicant);
         public Applicant? FindApplicantByCNIC(string cnic);
+        public Applicant? FindApplicantByEmailAddress(string emailAddress);
 
     }
 }

@@ -27,6 +27,10 @@ namespace BankAppBackend.Service
             {
                 throw new EntityAlreadyExist($"Applicant already exist with CNIC number : {applicant.CNIC}");
             }
+            else if(applicantRepository.FindApplicantByEmailAddress(applicant.EmailAddress) != null)
+            {
+                throw new EntityAlreadyExist($"Applicant already exist with email address : {applicant.EmailAddress}");
+            }
             applicant.AccountStatus = AccountStatus.PENDING;
             //applicant.Teller = teller;
             applicantRepository.AddApplicant(applicant);

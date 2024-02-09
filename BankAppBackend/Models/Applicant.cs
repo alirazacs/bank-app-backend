@@ -24,7 +24,9 @@ namespace BankAppBackend.Models
         public string Address { get; set; }
         [Required(ErrorMessage = "Applicant phone number can't be empty")]
         public string CNIC { get; set; }
-        public string Email { get; set; }
+        [EmailAddress]
+        [Required(ErrorMessage = "Applicant email can't be empty")]
+        public string EmailAddress { get; set; }
         [Required(ErrorMessage = "Applicant dob can't be empty")]
         public DateOnly DOB { get; set; }
         [Required(ErrorMessage = "Applicant account type can't be null")]
