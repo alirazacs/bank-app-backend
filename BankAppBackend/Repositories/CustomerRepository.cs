@@ -30,6 +30,11 @@ namespace BankAppBackend.Repositories
 
         public void UpdateCustomer(Customer customer)
         {
+            var existingEntity = _databaseContext.Customers.Local.FirstOrDefault(c => c.CustomerId == customer.CustomerId);
+            if (existingEntity != null)
+            {
+                _databaseContext.Entry(existingEntity).State = EntityState.Detached;
+            }
             _databaseContext.Customers.Update(customer);
             _databaseContext.SaveChanges();
         }

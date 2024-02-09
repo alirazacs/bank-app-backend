@@ -25,12 +25,12 @@ namespace BankAppBackend.Repositories
 
         public Applicant? FindApplicantByEmailAddress(string emailAddress)
         {
-            return _databaseContext.Applicants.FirstOrDefault(applicant => applicant.Id.Equals(emailAddress));
+            return _databaseContext.Applicants.Include(applicant => applicant.Customer).Include(applicant => applicant.Teller).FirstOrDefault(applicant => applicant.Id.Equals(emailAddress));
         }
 
         public Applicant? findApplicantById(long applicantId)
         {
-            return _databaseContext.Applicants.FirstOrDefault(applicant => applicant.Id.Equals(applicantId));
+           return _databaseContext.Applicants.Include(applicant => applicant.Customer).Include(applicant => applicant.Teller).FirstOrDefault(applicant => applicant.Id.Equals(applicantId));
         }
 
         public IEnumerable<Applicant> GetApplicants()

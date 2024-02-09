@@ -7,5 +7,6 @@ namespace BankAppBackend.Service.Interfaces
         public Customer CreateCustomerAndAccount(Applicant applicant);
         public Customer UpdateExistingCustomer(Customer customer);
         public Customer? FindCustomerByApplicantId(long applicantId);
+        public List<Customer> GetAllCustomers();
     }
 }

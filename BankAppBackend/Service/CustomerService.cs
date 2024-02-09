@@ -49,6 +49,7 @@ namespace BankAppBackend.Service
             {
                 throw new EntityNotFound($"Customer with id {customer.CustomerId} does not exist");
             }
+            customer.ApplicantId = existingCustomer.ApplicantId;
             customerRepository.UpdateCustomer(customer);
             return existingCustomer;
         }
@@ -57,6 +58,10 @@ namespace BankAppBackend.Service
         {
             List<Customer> customers = customerRepository.GetAllCustomers();
             return customers.Find(customer => customer.ApplicantId.Equals(applicantId));
+        }
+        public List<Customer> GetAllCustomers()
+        {
+            return customerRepository.GetAllCustomers();
         }
     }
 }

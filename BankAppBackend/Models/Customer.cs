@@ -9,16 +9,16 @@ namespace BankAppBackend.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long CustomerId {  get; set; }
-        [Required]
+        
+        [Required(ErrorMessage = "User name can't be empty")]
         public string UserName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "User password can't be empty")]
         public string Password { get; set; }
-
         public long ApplicantId { get; set; }
         [JsonIgnore]
-        public Applicant Applicant { get; set; }
+        public Applicant? Applicant { get; set; }
         [JsonIgnore]
-        public ICollection<Account> Accounts { get; set; }
+        public ICollection<Account>? Accounts { get; set; }
 
     }
 }
