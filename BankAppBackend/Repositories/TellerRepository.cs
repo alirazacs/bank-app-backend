@@ -31,5 +31,10 @@ namespace BankAppBackend.Repositories
             return _databaseContext.Tellers.FirstOrDefault(t => t.EmailAddress.Equals(emailAddress));
 
         }
+
+        public Teller? GetTellerDetailsByLoginCredentials(string emailAddress, string password)
+        {
+            return _databaseContext.Tellers.FirstOrDefault(teller=>teller.EmailAddress.Equals(emailAddress) &&  teller.Password.Equals(password));
+        }
     }
 }

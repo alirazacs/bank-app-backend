@@ -34,6 +34,11 @@ namespace BankAppBackend.Service
             return teller;
         }
 
+        public Teller? GetTellerDetailsByLoginCredentials(string emailAddress, string password)
+        {
+            return tellerRepository.GetTellerDetailsByLoginCredentials(emailAddress, password);
+        }
+
         public Teller RegisterTeller(Teller teller)
         {
             if (tellerRepository.GetTellerByEmailAddress(teller.EmailAddress) != null)

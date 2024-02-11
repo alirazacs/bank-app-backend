@@ -44,12 +44,31 @@ namespace BankAppBackend.Service
 
         public Applicant GetApplicantById(long applicantId)
         {
-            Applicant applicant = applicantRepository.findApplicantById(applicantId);
+            Applicant? applicant = applicantRepository.findApplicantById(applicantId);
             if(applicant == null)
             {
                 throw new EntityNotFound($"Applicant not found with applicant id :{applicantId}");
             }
             return applicant;
+        }
+
+        public Applicant? GetApplicantDetailsFromCredentials(string emailAddress, string password)
+        {
+            Applicant? applicant = applicantRepository.FindApplicantByEmailAddress(emailAddress);
+            if(applicant == null)
+            {
+                throw new EntityNotFound($"User not found with email address {emailAddress}");
+            }
+            else if(applicant.Customer == null)
+            {
+                throw new EntityNotFound($"Your applicant request is not approved by bank officials yet");
+            }
+            else if(applicant.Customer.Password.Equals(password))
+            {
+                return applicant;
+            }
+
+            return null;
         }
 
         public void UpdateApplicantStatus(long applicantId, AccountStatus accountStatus, Teller teller)

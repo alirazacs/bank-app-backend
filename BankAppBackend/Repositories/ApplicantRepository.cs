@@ -25,7 +25,7 @@ namespace BankAppBackend.Repositories
 
         public Applicant? FindApplicantByEmailAddress(string emailAddress)
         {
-            return _databaseContext.Applicants.Include(applicant => applicant.Customer).Include(applicant => applicant.Teller).FirstOrDefault(applicant => applicant.Id.Equals(emailAddress));
+            return _databaseContext.Applicants.Include(applicant => applicant.Customer).Include(applicant => applicant.Teller).FirstOrDefault(applicant => applicant.EmailAddress.Equals(emailAddress));
         }
 
         public Applicant? findApplicantById(long applicantId)

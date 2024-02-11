@@ -1,6 +1,5 @@
 ﻿using BankAppBackend.Exceptions;
 using BankAppBackend.Models;
-using BankAppBackend.Repositories;
 using BankAppBackend.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
