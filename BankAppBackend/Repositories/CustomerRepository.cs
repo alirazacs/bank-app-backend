@@ -25,7 +25,7 @@ namespace BankAppBackend.Repositories
 
         public List<Customer> GetAllCustomers()
         {
-            return _databaseContext.Customers.Include(customer=>customer.Applicant).ToList();
+            return _databaseContext.Customers.Include(customer=>customer.Applicant).Include(customer=>customer.Accounts).ToList();
         }
 
         public void UpdateCustomer(Customer customer)

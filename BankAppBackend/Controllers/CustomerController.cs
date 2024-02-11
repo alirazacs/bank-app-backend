@@ -11,10 +11,12 @@ namespace BankAppBackend.Controllers
     {
 
         private readonly ICustomerService customerService;
+        private readonly IAccountService accountService;
 
-        public CustomerController(ICustomerService customerService)
+        public CustomerController(ICustomerService customerService, IAccountService accountService)
         {
             this.customerService = customerService;
+            this.accountService = accountService;
         }
 
         [HttpPut("updateCustomer")]
@@ -36,6 +38,29 @@ namespace BankAppBackend.Controllers
         public ActionResult<IEnumerable<Customer>> GetAllCustomers()
         {
             return Ok(customerService.GetAllCustomers());
+        }
+
+        [HttpGet("{customerId}")]
+        public ActionResult<Customer> GetCustomerDetailsById(long customerId)
+        {
+            try
+            {
+                return Ok(customerService.FindCustomerById(customerId));
+            }
+            catch(Exception exception)
+            {
+                if(exception is EntityNotFound)
+                {
+                    return NotFound(exception.Message);
+                }
+                return BadRequest(exception.Message);
+            }
+        }
+
+        [HttpGet("customerAccounts/{customerId}")]
+        public ActionResult<List<Account>> GetAccountsByCustomerId(long customerId)
+        {
+            return Ok(accountService.GetAccountsAgainstCustomerId(customerId));
         }
 
 

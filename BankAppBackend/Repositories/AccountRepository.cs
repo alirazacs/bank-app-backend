@@ -19,7 +19,12 @@ namespace BankAppBackend.Repositories
 
         public Account? GetAccountById(Guid id)
         {
-            return this._databaseContext.Accounts.FirstOrDefault(account => account.AccountId.Equals(id));
+            return _databaseContext.Accounts.FirstOrDefault(account => account.AccountId.Equals(id));
+        }
+
+        public List<Account> GetAccountsAgainstCustomerId(long customerId)
+        {
+            return _databaseContext.Accounts.Where(accounts=>accounts.CustomerId.Equals(customerId)).ToList(); 
         }
     }
 }

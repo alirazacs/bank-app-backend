@@ -60,10 +60,11 @@ namespace BankAppBackend.Service
                 throw new EntityNotFound($"Applicant with id {applicantId} not found");
             }
 
-            if (customerService.FindCustomerByApplicantId(applicantId) != null)
+            if(customerService.CheckIfCustomerExistAgainstApplicantId(applicantId))
             {
-                throw new EntityAlreadyExist($"Customer with applicant id {applicantId} already exist");
+                throw new EntityAlreadyExist($"Customer already exist against this applicant id {applicantId}");
             }
+
             applicant.Teller = teller;
             applicant.AccountStatus = accountStatus;
 

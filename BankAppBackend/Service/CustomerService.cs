@@ -56,12 +56,36 @@ namespace BankAppBackend.Service
 
         public Customer? FindCustomerByApplicantId(long applicantId)
         {
-            List<Customer> customers = customerRepository.GetAllCustomers();
-            return customers.Find(customer => customer.ApplicantId.Equals(applicantId));
+            List<Customer> customersList = customerRepository.GetAllCustomers();
+            Customer? customer = customersList.Find(customer => customer.ApplicantId.Equals(applicantId));
+            if(customer == null)
+            {
+                throw new EntityNotFound($"Customer does not exist with applicant id {applicantId}");
+            }
+            return customer;
         }
+
+        public bool CheckIfCustomerExistAgainstApplicantId(long applicantId)
+        {
+            List<Customer> customersList = customerRepository.GetAllCustomers();
+            Customer? customer = customersList.Find(customer => customer.ApplicantId.Equals(applicantId));
+            return customer != null;
+        }
+
         public List<Customer> GetAllCustomers()
         {
             return customerRepository.GetAllCustomers();
+        }
+
+        public Customer? FindCustomerById(long customerId)
+        {
+            List<Customer> customersList = customerRepository.GetAllCustomers();
+            Customer? customer = customersList.Find(customer => customer.CustomerId.Equals(customerId));
+            if(customer == null)
+            {
+                throw new EntityNotFound($"Customer does not exist against id {customerId}");
+            }
+            return customer;
         }
     }
 }

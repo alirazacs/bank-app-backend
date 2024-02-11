@@ -7,6 +7,7 @@ namespace BankAppBackend.Service.Interfaces
         public Account CreateNewAccount(Customer customer);
 
         public Account GetAccountById(Guid id);
+        public List<Account> GetAccountsAgainstCustomerId(long customerId);
 
     }
 }

@@ -30,5 +30,10 @@ namespace BankAppBackend.Service
             }
             return account;
         }
+
+        public List<Account> GetAccountsAgainstCustomerId(long customerId)
+        {
+            return _accountRepository.GetAccountsAgainstCustomerId(customerId); 
+        }
     }
 }
