@@ -8,9 +8,9 @@ services:
     ports:
       - "9900:8080" 
       - "9902:8081"
-    # build:
-    #   context: .
-    #   dockerfile: BankAppBackend/Dockerfile
+    depends_on:
+      - redis-bank
+      - sql
 
   banktrackingsystem:
     image: banktrackingsystem:latest
@@ -20,6 +20,13 @@ services:
       - "9901:8080"
     depends_on:
       - redis-bank
+ 
+  bank-app-frontend:
+    image: bankappfrontend:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - "9903:8080"
  
   sql:
     image: mcr.microsoft.com/mssql/server
