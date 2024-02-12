@@ -108,5 +108,10 @@ namespace BankAppBackend.Service
            return this._transactionRepository.GetTransactions();
             
         }
+
+        public IEnumerable<Transaction> GetTransactionsByAccountId(Guid accountId)
+        {
+            return _transactionRepository.GetTransactionsByAccountId(accountId);
+        }
     }
 }

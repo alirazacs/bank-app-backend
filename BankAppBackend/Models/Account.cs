@@ -12,7 +12,6 @@ namespace BankAppBackend.Models
         public AccountType AccountType { get; set; }
         public double Balance { get; set; } = 0.00;
         public long CustomerId { get; set; }
-        [JsonIgnore]
         public Customer Customer { get; set; }
 
         [JsonIgnore]

@@ -25,5 +25,10 @@ namespace BankAppBackend.Repositories
         {
           return this._databaseContext.transactions;
         }
+
+        public IEnumerable<Transaction> GetTransactionsByAccountId(Guid accountId)
+        {
+            return _databaseContext.transactions.Where(txn => txn.AccountId.Equals(accountId));
+        }
     }
 }

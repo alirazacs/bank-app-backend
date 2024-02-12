@@ -1,5 +1,6 @@
 ﻿using BankAppBackend.Models;
 using BankAppBackend.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankAppBackend.Repositories
 {
@@ -15,6 +16,12 @@ namespace BankAppBackend.Repositories
             _databaseContext.Accounts.Add(account);
             _databaseContext.SaveChanges();
             return account;
+        }
+
+        public Account GetAccountAgainstCustomerId(long customerId)
+        {
+            return _databaseContext.Accounts.Include(account => account.Customer).ThenInclude(account=>account.Applicant).FirstOrDefault(account => account.Customer.CustomerId.Equals(customerId));
+
         }
 
         public Account? GetAccountById(Guid id)
