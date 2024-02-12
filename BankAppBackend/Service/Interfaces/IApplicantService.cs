@@ -9,5 +9,6 @@ namespace BankAppBackend.Service.Interfaces
         public Applicant GetApplicantById(long applicantId);
         public void UpdateApplicantStatus(long applicantId, AccountStatus accountStatus, Teller teller);
         public Applicant? GetApplicantDetailsFromCredentials(string emailAddress, string password);
+        public Applicant GetApplicantByEmail(string applicantEmail);
     }
 }

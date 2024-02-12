@@ -6,6 +6,8 @@ services:
     build:
       context: .
       dockerfile: BankAppBackend/Dockerfile
+    ports:
+    - "9900:8080"
   sql:
     image: mcr.microsoft.com/mssql/server
     container_name: sqlserver
