@@ -6,6 +6,7 @@ namespace BankAppBackend.Service.Interfaces
     {
         public Transaction AddTransaction(TransactionExtended transaction);
         public IEnumerable<Transaction> GetTransactions();
+        public IEnumerable<Transaction> GetTransactionsByAccountId(Guid accountId);
 
         public Transaction? GetTransactionById(Guid id);
     }

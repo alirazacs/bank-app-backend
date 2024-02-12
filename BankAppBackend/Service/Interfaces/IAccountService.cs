@@ -9,5 +9,7 @@ namespace BankAppBackend.Service.Interfaces
         public Account GetAccountById(Guid id);
         public List<Account> GetAccountsAgainstCustomerId(long customerId);
 
+        public Account GetAccountAgainstCustomerId(long customerId);
+
     }
 }

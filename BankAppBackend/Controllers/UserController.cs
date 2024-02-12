@@ -7,17 +7,17 @@ namespace BankAppBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserManagement : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly IApplicantService applicantService;
         private readonly ITellerService tellerService;
-        public UserManagement(IApplicantService applicantService, ITellerService tellerService)
+        public UserController(IApplicantService applicantService, ITellerService tellerService)
         {
             this.tellerService = tellerService;
             this.applicantService = applicantService;
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         public ActionResult<object> LoginUser([FromBody] User user)
         {
             try
@@ -45,12 +45,6 @@ namespace BankAppBackend.Controllers
                 return BadRequest(ex.Message);
             }
             
-        }
-
-        [HttpGet]
-        public IActionResult print()
-        {
-            return Ok("ABC");
         }
     }
 }

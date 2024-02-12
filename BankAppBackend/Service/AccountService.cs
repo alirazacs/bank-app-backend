@@ -22,6 +22,11 @@ namespace BankAppBackend.Service
             return account;
         }
 
+        public Account GetAccountAgainstCustomerId(long customerId)
+        {
+            return _accountRepository.GetAccountAgainstCustomerId(customerId);
+        }
+
         public Account GetAccountById(Guid id)
         {
             Account account = _accountRepository.GetAccountById(id);

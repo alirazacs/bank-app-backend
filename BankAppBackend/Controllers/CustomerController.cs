@@ -63,6 +63,11 @@ namespace BankAppBackend.Controllers
             return Ok(accountService.GetAccountsAgainstCustomerId(customerId));
         }
 
+        [HttpGet("customerAccount/{customerId}")]
+        public ActionResult<Account> GetAccountByCustomerId(long customerId)
+        {
+            return Ok(accountService.GetAccountAgainstCustomerId(customerId));
+        }
 
     }
 }

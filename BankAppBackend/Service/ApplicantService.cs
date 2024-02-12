@@ -42,6 +42,16 @@ namespace BankAppBackend.Service
             return applicantRepository.GetApplicants().ToList();
         }
 
+        public Applicant GetApplicantByEmail(string applicantEmail)
+        {
+            Applicant? applicant = applicantRepository.FindApplicantByEmailAddress(applicantEmail);
+            if (applicant == null)
+            {
+                throw new EntityNotFound($"Applicant not found with applicant email address :{applicantEmail}");
+            }
+            return applicant;
+        }
+
         public Applicant GetApplicantById(long applicantId)
         {
             Applicant? applicant = applicantRepository.findApplicantById(applicantId);
@@ -96,6 +106,8 @@ namespace BankAppBackend.Service
             //preparing model to send on queue for another MVC App.
             ApplicantMessagesModel applicantMessageModel = new ApplicantMessagesModel();
             applicantMessageModel.ApplicantId = applicant.Id;
+            applicantMessageModel.accountStatus = accountStatus;
+            applicantMessageModel.ApplicantEmailAddress = applicant.EmailAddress;
             applicantMessageModel.Message = $"Dear Applicant {applicant.ApplicateName}, your status has been updated to {accountStatus}";
             redisMessagePublisherService.sendMessage(applicantMessageModel);
         }

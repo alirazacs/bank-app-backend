@@ -59,5 +59,12 @@ namespace BankAppBackend.Controllers
             IEnumerable<Transaction> txnList = this._transactionService.GetTransactions();
             return Ok(txnList);
         }
+
+        [HttpGet("accountTransactions/{accountId}")]
+        public ActionResult<List<Transaction>> GetAllTranscationByAccountId(Guid accountId)
+        {
+            IEnumerable<Transaction> txnList = this._transactionService.GetTransactionsByAccountId(accountId);
+            return Ok(txnList);
+        }
     }
 }

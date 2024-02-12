@@ -62,5 +62,24 @@ namespace BankAppBackend.Controllers
             }
         }
 
+        [HttpGet("/api/applicant/email/{emailAddress}")]
+        public ActionResult<Applicant> FindApplicantByEmailAddress(string emailAddress)
+        {
+            try
+            {
+                var applicant = applicantService.GetApplicantByEmail(emailAddress);
+                return Ok(applicant);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.ToString());
+                if (exception is EntityNotFound)
+                {
+                    return NotFound(exception.Message);
+                }
+                return BadRequest(exception.Message);
+            }
+        }
+
     }
 }
