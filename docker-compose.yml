@@ -2,10 +2,25 @@ version: '3.4'
 
 services:
   bankappbackend:
-    image: ${DOCKER_REGISTRY-}bankappbackend
-    build:
-      context: .
-      dockerfile: BankAppBackend/Dockerfile
+    image: bankappbackend:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - "9900:8080" 
+      - "9902:8081"
+    # build:
+    #   context: .
+    #   dockerfile: BankAppBackend/Dockerfile
+
+  banktrackingsystem:
+    image: banktrackingsystem:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - "9901:8080"
+    depends_on:
+      - redis-bank
+ 
   sql:
     image: mcr.microsoft.com/mssql/server
     container_name: sqlserver
@@ -14,3 +29,8 @@ services:
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
+
+  redis-bank:
+    image: redis:latest
+    ports:
+      - "6379:6379"
