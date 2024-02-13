@@ -34,7 +34,10 @@ builder.Services.AddDbContext<DatabaseContext>(conn => conn.UseSqlServer(connect
 var app = builder.Build();
 using var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-await context.Database.MigrateAsync();
+if (context.Database.GetPendingMigrations().Any())
+{
+    await context.Database.MigrateAsync();
+}
 
 //Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
