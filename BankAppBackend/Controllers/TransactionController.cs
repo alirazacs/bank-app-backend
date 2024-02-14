@@ -9,9 +9,10 @@ namespace BankAppBackend.Controllers
     [ApiController]
     public class TransactionController : ControllerBase
     {
-
         private readonly ITransactionService _transactionService;
-        public TransactionController(ITransactionService transactionService) {
+
+        public TransactionController(ITransactionService transactionService)
+        {
             this._transactionService = transactionService;
         }
 
@@ -22,16 +23,17 @@ namespace BankAppBackend.Controllers
             {
                 return Ok(this._transactionService.AddTransaction(transaction));
             }
-            catch(Exception exception)
+            catch (EntityNotFoundException exception)
             {
                 Console.Write(exception.ToString());
-                if(exception is EntityNotFoundException)
-                {
-                    return NotFound(exception.Message);
-                }
+                return NotFound(exception.Message);
+            }
+            catch (Exception exception)
+            {
+                Console.Write(exception.ToString());
                 return BadRequest(exception.Message);
             }
-            
+
         }
 
         [HttpGet("{id}")]
@@ -41,18 +43,21 @@ namespace BankAppBackend.Controllers
             {
                 return Ok(this._transactionService.GetTransactionById(id));
             }
-            catch(Exception exception)
+            catch (EntityNotFoundException exception)
+            {
+                Console.Write(exception.ToString());
+                return NotFound(exception.Message);
+            }
+            catch (Exception exception)
             {
                 Console.WriteLine(exception.ToString());
-                if(exception is EntityNotFoundException)
-                {
-                    return NotFound(exception.Message);
-                }
-
                 return BadRequest(exception.Message);
             }
         }
 
+        /*
+         * why we need this?
+         */
         [HttpGet]
         public ActionResult<List<Transaction>> GetAllTranscation()
         {

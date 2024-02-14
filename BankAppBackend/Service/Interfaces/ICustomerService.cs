@@ -8,7 +8,7 @@ namespace BankAppBackend.Service.Interfaces
         public Customer UpdateExistingCustomer(Customer customer);
         public Customer? FindCustomerByApplicantId(long applicantId);
         public Customer? FindCustomerById(long customerId);
-        public List<Customer> GetAllCustomers();
+        public List<Customer> GetAllCustomers();    // its performance will degrade with more data; why we need this
         public bool CheckIfCustomerExistAgainstApplicantId(long applicantId);
     }
 }

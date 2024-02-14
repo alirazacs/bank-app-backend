@@ -34,6 +34,9 @@ namespace BankAppBackend.Controllers
 
         }
 
+        /*
+         * why we need this?
+         */
         [HttpGet("allCustomers")]
         public ActionResult<IEnumerable<Customer>> GetAllCustomers()
         {
@@ -47,12 +50,12 @@ namespace BankAppBackend.Controllers
             {
                 return Ok(customerService.FindCustomerById(customerId));
             }
-            catch(Exception exception)
+            catch (EntityNotFoundException exception)
             {
-                if(exception is EntityNotFoundException)
-                {
-                    return NotFound(exception.Message);
-                }
+                return NotFound(exception.Message);
+            }
+            catch (Exception exception)
+            {
                 return BadRequest(exception.Message);
             }
         }

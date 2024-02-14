@@ -11,13 +11,15 @@ namespace BankAppBackend.Service
         private readonly ITransactionRepository _transactionRepository;
         private readonly IAccountService _accountService;
 
-        public TransactionService(ITransactionRepository transactionRepository,IAccountService accountService) {
+        public TransactionService(ITransactionRepository transactionRepository, IAccountService accountService)
+        {
             this._transactionRepository = transactionRepository;
             this._accountService = accountService;
         }
+
         public Transaction AddTransaction(TransactionExtended transaction)
         {
-            if(transaction.TransactionType.Equals(TransactionTypes.CREDIT))
+            if (transaction.TransactionType.Equals(TransactionTypes.CREDIT))
             {
                 return processCreditTransaction(transaction);
             }
@@ -27,7 +29,6 @@ namespace BankAppBackend.Service
                 Account receiverAccount = this._accountService.GetAccountById(transaction.DepositorAccountId.Value);
                 return processTransferTransaction(transaction, senderAccount, receiverAccount);
             }
-
         }
 
         private Transaction processCreditTransaction(Transaction transaction)
@@ -47,7 +48,7 @@ namespace BankAppBackend.Service
             senderTransaction.Account = senderAccount;
             senderTransaction.Amount = ValidateAmountAndReturn(senderTransaction);
             senderTransaction.DateTime = DateTime.Now;
-            
+
             this._transactionRepository.AddTransaction(senderTransaction);
 
             Transaction receiverTransaction = new Transaction();
@@ -56,16 +57,17 @@ namespace BankAppBackend.Service
             receiverTransaction.Amount = transactionExtended.Amount;
             receiverTransaction.Amount = ValidateAmountAndReturn(receiverTransaction);
             receiverTransaction.DateTime = DateTime.Now;
-            
+
             this._transactionRepository.AddTransaction(receiverTransaction);
-            
+
             return senderTransaction;
         }
 
         public Transaction? GetTransactionById(Guid id)
         {
             Transaction transaction = this._transactionRepository.GetTransactionById(id);
-            if(transaction == null) {
+            if (transaction == null)
+            {
                 throw new EntityNotFoundException($"Transaction not found against transaction id {id}");
             }
 
@@ -86,7 +88,7 @@ namespace BankAppBackend.Service
                 }
 
             }
-            else if(txn.TransactionType == TransactionTypes.TRANSFER)
+            else if (txn.TransactionType == TransactionTypes.TRANSFER)
             {
                 if (txn.Account?.Balance >= txn.Amount)
                 {
@@ -105,8 +107,7 @@ namespace BankAppBackend.Service
 
         public IEnumerable<Transaction> GetTransactions()
         {
-           return this._transactionRepository.GetTransactions();
-            
+            return this._transactionRepository.GetTransactions();
         }
 
         public IEnumerable<Transaction> GetTransactionsByAccountId(Guid accountId)
