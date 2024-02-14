@@ -7,7 +7,9 @@ namespace BankAppBackend.Repositories
     public class CustomerRepository : ICustomerRepository
     {
         private readonly DatabaseContext _databaseContext;
-        public CustomerRepository(DatabaseContext databaseContext) {
+
+        public CustomerRepository(DatabaseContext databaseContext)
+        {
             _databaseContext = databaseContext;
         }
 
@@ -25,7 +27,8 @@ namespace BankAppBackend.Repositories
 
         public List<Customer> GetAllCustomers()
         {
-            return _databaseContext.Customers.Include(customer=>customer.Applicant).Include(customer=>customer.Accounts).ToList();
+            return _databaseContext.Customers.Include(customer => customer.Applicant)
+                .Include(customer => customer.Accounts).ToList();
         }
 
         public void UpdateCustomer(Customer customer)

@@ -1,12 +1,12 @@
 ﻿namespace BankAppBackend.Exceptions
 {
-    public class EntityAlreadyExist:Exception
+    public class EntityAlreadyExistException : Exception
     {
-        public EntityAlreadyExist(string exceptionMessage):base(exceptionMessage) { }
+        public EntityAlreadyExistException(string exceptionMessage) : base(exceptionMessage) { }
     }
 
-    public class EntityNotFound : Exception
+    public class EntityNotFoundException : Exception
     {
-        public EntityNotFound(string exceptionMessage):base(exceptionMessage) { }
+        public EntityNotFoundException(string exceptionMessage) : base(exceptionMessage) { }
     }
 }

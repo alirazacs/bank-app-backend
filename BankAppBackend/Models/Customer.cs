@@ -12,12 +12,14 @@ namespace BankAppBackend.Models
         
         [Required(ErrorMessage = "User name can't be empty")]
         public string UserName { get; set; }
+        
         [Required(ErrorMessage = "User password can't be empty")]
         public string Password { get; set; }
+        
         public long ApplicantId { get; set; }
         public Applicant? Applicant { get; set; }
+        
         [JsonIgnore]
         public ICollection<Account>? Accounts { get; set; }
-
     }
 }

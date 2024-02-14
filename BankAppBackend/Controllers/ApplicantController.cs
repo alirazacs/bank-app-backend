@@ -35,7 +35,7 @@ namespace BankAppBackend.Controllers
             catch(Exception exception)
             {
                 Console.WriteLine(exception.ToString());
-                if (exception is EntityNotFound)
+                if (exception is EntityNotFoundException)
                 {
                     return NotFound(exception.Message);
                 }
@@ -54,7 +54,7 @@ namespace BankAppBackend.Controllers
             catch(Exception exception)
             {
                 Console.WriteLine(exception.ToString());
-                if (exception is EntityAlreadyExist)
+                if (exception is EntityAlreadyExistException)
                 {
                     return Conflict(exception.Message);
                 }
@@ -73,7 +73,7 @@ namespace BankAppBackend.Controllers
             catch (Exception exception)
             {
                 Console.WriteLine(exception.ToString());
-                if (exception is EntityNotFound)
+                if (exception is EntityNotFoundException)
                 {
                     return NotFound(exception.Message);
                 }

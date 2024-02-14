@@ -14,12 +14,12 @@ namespace BankAppBackend.Service
             this.applicantService = applicantService;
             this.tellerRepository = tellerRepository;
         }
-        public void ChangeApplicantStatus(long applicantId, AccountStatus accountStatus, long tellerId)
+        public void ChangeApplicantStatus(long applicantId, AccountStatuses accountStatus, long tellerId)
         {
             Teller? teller = tellerRepository.GetTellerById(tellerId);
             if (teller == null)
             {
-                throw new EntityNotFound($"Teller not found with id: {tellerId}");
+                throw new EntityNotFoundException($"Teller not found with id: {tellerId}");
             }
             applicantService.UpdateApplicantStatus(applicantId, accountStatus, teller);
         }
@@ -29,7 +29,7 @@ namespace BankAppBackend.Service
             Teller? teller = this.tellerRepository.GetTellerById(id);
             if (teller == null)
             {
-                throw new EntityNotFound($"Teller not found with teller id {id}");
+                throw new EntityNotFoundException($"Teller not found with teller id {id}");
             }
             return teller;
         }
@@ -43,7 +43,7 @@ namespace BankAppBackend.Service
         {
             if (tellerRepository.GetTellerByEmailAddress(teller.EmailAddress) != null)
             {
-                throw new EntityAlreadyExist($"Teller already exist with email address {teller.EmailAddress}");
+                throw new EntityAlreadyExistException($"Teller already exist with email address {teller.EmailAddress}");
             }
             return tellerRepository.RegisterTeller(teller);
         }

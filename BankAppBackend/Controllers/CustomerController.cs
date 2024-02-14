@@ -49,7 +49,7 @@ namespace BankAppBackend.Controllers
             }
             catch(Exception exception)
             {
-                if(exception is EntityNotFound)
+                if(exception is EntityNotFoundException)
                 {
                     return NotFound(exception.Message);
                 }

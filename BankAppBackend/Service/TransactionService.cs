@@ -17,7 +17,7 @@ namespace BankAppBackend.Service
         }
         public Transaction AddTransaction(TransactionExtended transaction)
         {
-            if(transaction.TransactionType.Equals(TransactionType.CREDIT))
+            if(transaction.TransactionType.Equals(TransactionTypes.CREDIT))
             {
                 return processCreditTransaction(transaction);
             }
@@ -51,7 +51,7 @@ namespace BankAppBackend.Service
             this._transactionRepository.AddTransaction(senderTransaction);
 
             Transaction receiverTransaction = new Transaction();
-            receiverTransaction.TransactionType = TransactionType.CREDIT;
+            receiverTransaction.TransactionType = TransactionTypes.CREDIT;
             receiverTransaction.Account = receiverAccount;
             receiverTransaction.Amount = transactionExtended.Amount;
             receiverTransaction.Amount = ValidateAmountAndReturn(receiverTransaction);
@@ -66,7 +66,7 @@ namespace BankAppBackend.Service
         {
             Transaction transaction = this._transactionRepository.GetTransactionById(id);
             if(transaction == null) {
-                throw new EntityNotFound($"Transaction not found against transaction id {id}");
+                throw new EntityNotFoundException($"Transaction not found against transaction id {id}");
             }
 
             return transaction;
@@ -74,7 +74,7 @@ namespace BankAppBackend.Service
 
         public double ValidateAmountAndReturn(Transaction txn)
         {
-            if (txn.TransactionType == TransactionType.CREDIT)
+            if (txn.TransactionType == TransactionTypes.CREDIT)
             {
                 if (txn.Amount > 0)
                 {
@@ -86,7 +86,7 @@ namespace BankAppBackend.Service
                 }
 
             }
-            else if(txn.TransactionType == TransactionType.TRANSFER)
+            else if(txn.TransactionType == TransactionTypes.TRANSFER)
             {
                 if (txn.Account?.Balance >= txn.Amount)
                 {

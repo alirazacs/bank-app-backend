@@ -31,7 +31,7 @@ namespace BankAppBackend.Service
         {
             Account account = _accountRepository.GetAccountById(id);
             if(account == null) {
-                throw new EntityNotFound($"Account does not exist with account id : {id}");
+                throw new EntityNotFoundException($"Account does not exist with account id : {id}");
             }
             return account;
         }

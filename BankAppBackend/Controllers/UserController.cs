@@ -22,7 +22,7 @@ namespace BankAppBackend.Controllers
         {
             try
             {
-                if (user.UserType.Equals(UserType.TELLER))
+                if (user.UserType.Equals(UserTypes.TELLER))
                 {
                     Teller? teller = tellerService.GetTellerDetailsByLoginCredentials(user.Email, user.Password);
                     if (teller == null)

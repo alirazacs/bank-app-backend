@@ -9,6 +9,6 @@ namespace BankTrackingSystem.Models
         public string? Message { get; set; }
         public string ApplicantEmailAddress { get; set; }
 
-        public AccountStatus accountStatus { get; set; }    
+        public AccountStatuses AccountStatus { get; set; }    
     }
 }

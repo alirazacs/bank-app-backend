@@ -1,36 +1,31 @@
-﻿using BankAppBackend.Models;
-using BankAppBackend.Service.Interfaces;
+﻿using BankAppBackend.Service.Interfaces;
 using BankTrackingSystem.Models;
 using StackExchange.Redis;
-using System;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Options;
+
 namespace BankAppBackend.Service
 {
     public class RedisMessagePublisherService : IRedisMessagePublisherService
     {
-        private readonly ILogger<RedisMessagePublisherService> _logger;
-        private readonly IConfiguration Configuration;
         private static readonly RedisChannel Channel = RedisChannel.Pattern("bank-account-status-changed-channel");
 
-        public RedisMessagePublisherService(IConfiguration configuration, ILogger<RedisMessagePublisherService> logger)
+        private readonly ILogger<RedisMessagePublisherService> _logger;
+        private readonly ConnectionStringsOptions _options;
+
+        public RedisMessagePublisherService(ILogger<RedisMessagePublisherService> logger,
+            IOptions<ConnectionStringsOptions> options)
         {
             _logger = logger;
-            Configuration = configuration;
+            _options = options.Value;
         }
 
         private IConnectionMultiplexer EstablishRedisConnection()
         {
-            // Reads the `ConnectionStrings` section from appsettings.json and stores it in an instance of `ConnectionStringsOptions`
-            // Had to do this because otherwise a warning is emitted always saying `RedisConnectionString` may be null
-            // Read more at https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-8.0
-            ConnectionStringsOptions connectionStringsOptions = new ConnectionStringsOptions();
-            Configuration.GetSection(ConnectionStringsOptions.ConnectionStrings).Bind(connectionStringsOptions);
-
-            return ConnectionMultiplexer.Connect(connectionStringsOptions.RedisConnectionString);
+            return ConnectionMultiplexer.Connect(_options.RedisConnectionString);
         }
 
-        public async Task sendMessage(ApplicantMessagesModel applicantMessagesModel)
+        public async Task SendMessage(ApplicantMessagesModel applicantMessagesModel)
         {
             IConnectionMultiplexer connectionMultiplexer = EstablishRedisConnection();
             ISubscriber subscriber = connectionMultiplexer.GetSubscriber();

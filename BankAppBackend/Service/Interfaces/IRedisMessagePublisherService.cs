@@ -5,6 +5,6 @@ namespace BankAppBackend.Service.Interfaces
 {
     public interface IRedisMessagePublisherService
     {
-        public Task sendMessage(ApplicantMessagesModel applicantMessagesModel);
+        public Task SendMessage(ApplicantMessagesModel applicantMessagesModel);
     }
 }
