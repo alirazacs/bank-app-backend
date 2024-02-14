@@ -10,11 +10,13 @@ namespace BankAppBackend.Service
     {
         private ICustomerRepository customerRepository;
         private IAccountService accountService;
+        
         public CustomerService(ICustomerRepository customerRepository, IAccountService accountService)
         {
             this.customerRepository = customerRepository;
             this.accountService = accountService;
         }
+        
         public Customer CreateCustomerAndAccount(Applicant applicant)
         {
             Customer existingCustomer = customerRepository.GetAllCustomers().FirstOrDefault(c => c.ApplicantId.Equals(applicant.Id)); ;

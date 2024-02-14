@@ -9,11 +9,13 @@ namespace BankAppBackend.Service
     {
         private IApplicantService applicantService;
         private ITellerRepository tellerRepository;
+
         public TellerService(IApplicantService applicantService, ITellerRepository tellerRepository)
         {
             this.applicantService = applicantService;
             this.tellerRepository = tellerRepository;
         }
+        
         public void ChangeApplicantStatus(long applicantId, AccountStatuses accountStatus, long tellerId)
         {
             Teller? teller = tellerRepository.GetTellerById(tellerId);

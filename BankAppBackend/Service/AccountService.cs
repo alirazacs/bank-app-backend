@@ -8,16 +8,21 @@ namespace BankAppBackend.Service
     public class AccountService : IAccountService
     {
         private IAccountRepository _accountRepository;
+
         public AccountService(IAccountRepository accountRepository)
         {
             this._accountRepository = accountRepository;
         }
+
         public Account CreateNewAccount(Customer customer)
         {
-            Account account = new Account();
-            account.AccountId = Guid.NewGuid();
-            account.AccountType = customer.Applicant.AccountType;
-            account.Customer = customer;
+            Account account = new Account
+            {
+                AccountId = Guid.NewGuid(),
+                AccountType = customer.Applicant.AccountType,
+                Customer = customer
+            };
+
             account = _accountRepository.CreateAccount(account);
             return account;
         }
@@ -30,7 +35,8 @@ namespace BankAppBackend.Service
         public Account GetAccountById(Guid id)
         {
             Account account = _accountRepository.GetAccountById(id);
-            if(account == null) {
+            if (account == null)
+            {
                 throw new EntityNotFoundException($"Account does not exist with account id : {id}");
             }
             return account;
@@ -38,7 +44,7 @@ namespace BankAppBackend.Service
 
         public List<Account> GetAccountsAgainstCustomerId(long customerId)
         {
-            return _accountRepository.GetAccountsAgainstCustomerId(customerId); 
+            return _accountRepository.GetAccountsAgainstCustomerId(customerId);
         }
     }
 }

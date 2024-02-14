@@ -2,8 +2,6 @@
 using BankAppBackend.Models;
 using BankAppBackend.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 
 namespace BankAppBackend.Controllers
 {
@@ -12,6 +10,7 @@ namespace BankAppBackend.Controllers
     public class TellerController : ControllerBase
     {
         private ITellerService tellerSevice;
+        
         public TellerController(ITellerService applicantService)
         {
             tellerSevice = applicantService;
@@ -25,17 +24,13 @@ namespace BankAppBackend.Controllers
                 tellerSevice.ChangeApplicantStatus(applicantId, accountStatus.AccountStatus, accountStatus.TellerId);
                 return Ok();
             }
-            catch (Exception exception)
+            catch (EntityAlreadyExistException exception)
             {
                 Console.WriteLine(exception.ToString());
-                if (exception is EntityNotFoundException)
-                {
-                    return NotFound(exception.Message);
-                }
-                else if (exception is EntityNotFoundException)
-                {
-                    return Conflict(exception.Message);
-                }
+                return NotFound(exception.Message);
+            }
+            catch (Exception exception)
+            {
                 return BadRequest(exception.Message);
             }
         }
@@ -47,36 +42,34 @@ namespace BankAppBackend.Controllers
             {
                 return tellerSevice.GetTellerById(id);
             }
-            catch(Exception exception)
+            catch (EntityAlreadyExistException exception)
             {
                 Console.WriteLine(exception.ToString());
-                if(exception is EntityNotFoundException)
-                {
-                    return NotFound(exception.Message);
-                }
+                return NotFound(exception.Message);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.ToString());
                 return BadRequest(exception.Message);
             }
 
         }
-        [HttpPost]
 
+        [HttpPost]
         public ActionResult<Teller> RegisterTeller(Teller teller)
         {
             try
             {
                 return tellerSevice.RegisterTeller(teller);
             }
-            catch(Exception exception)
+            catch (EntityAlreadyExistException exception)
             {
-                if(exception is EntityAlreadyExistException)
-                {
-                    return Conflict(exception.Message);
-                }
+                return Conflict(exception.Message);
+            }
+            catch (Exception exception)
+            {
                 return BadRequest(exception.Message);
             } 
         }
-
-        
-
     }
 }

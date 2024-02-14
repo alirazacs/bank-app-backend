@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BankAppBackend.Models;
-using Microsoft.EntityFrameworkCore;
 using BankAppBackend.Service.Interfaces;
 using BankAppBackend.Exceptions;
 
@@ -32,13 +31,14 @@ namespace BankAppBackend.Controllers
                 var applicant = applicantService.GetApplicantById(id);
                 return Ok(applicant);
             }
-            catch(Exception exception)
+            catch (EntityAlreadyExistException exception)
             {
                 Console.WriteLine(exception.ToString());
-                if (exception is EntityNotFoundException)
-                {
-                    return NotFound(exception.Message);
-                }
+                return NotFound(exception.Message);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.ToString());
                 return BadRequest(exception.Message);   
             }
         }
@@ -51,13 +51,14 @@ namespace BankAppBackend.Controllers
                 Applicant savedApplicant = applicantService.AddApplicant(applicant);
                 return Ok(savedApplicant);
             }
+            catch(EntityAlreadyExistException exception)
+            {
+                Console.WriteLine(exception.ToString());
+                return Conflict(exception.Message);
+            }
             catch(Exception exception)
             {
                 Console.WriteLine(exception.ToString());
-                if (exception is EntityAlreadyExistException)
-                {
-                    return Conflict(exception.Message);
-                }
                 return BadRequest(exception.Message);
             }
         }
@@ -70,13 +71,14 @@ namespace BankAppBackend.Controllers
                 var applicant = applicantService.GetApplicantByEmail(emailAddress);
                 return Ok(applicant);
             }
+            catch (EntityAlreadyExistException exception)
+            {
+                Console.WriteLine(exception.ToString());
+                return NotFound(exception.Message);
+            }
             catch (Exception exception)
             {
                 Console.WriteLine(exception.ToString());
-                if (exception is EntityNotFoundException)
-                {
-                    return NotFound(exception.Message);
-                }
                 return BadRequest(exception.Message);
             }
         }

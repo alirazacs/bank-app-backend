@@ -27,7 +27,7 @@ namespace BankAppBackend.Service
             {
                 throw new EntityAlreadyExistException($"Applicant already exist with CNIC number : {applicant.CNIC}");
             }
-            else if(applicantRepository.FindApplicantByEmailAddress(applicant.EmailAddress) != null)
+            else if (applicantRepository.FindApplicantByEmailAddress(applicant.EmailAddress) != null)
             {
                 throw new EntityAlreadyExistException($"Applicant already exist with email address : {applicant.EmailAddress}");
             }
@@ -55,7 +55,7 @@ namespace BankAppBackend.Service
         public Applicant GetApplicantById(long applicantId)
         {
             Applicant? applicant = applicantRepository.findApplicantById(applicantId);
-            if(applicant == null)
+            if (applicant == null)
             {
                 throw new EntityNotFoundException($"Applicant not found with applicant id :{applicantId}");
             }
@@ -65,15 +65,15 @@ namespace BankAppBackend.Service
         public Applicant? GetApplicantDetailsFromCredentials(string emailAddress, string password)
         {
             Applicant? applicant = applicantRepository.FindApplicantByEmailAddress(emailAddress);
-            if(applicant == null)
+            if (applicant == null)
             {
                 throw new EntityNotFoundException($"User not found with email address {emailAddress}");
             }
-            else if(applicant.Customer == null)
+            else if (applicant.Customer == null)
             {
                 throw new EntityNotFoundException($"Your applicant request is not approved by bank officials yet");
             }
-            else if(applicant.Customer.Password.Equals(password))
+            else if (applicant.Customer.Password.Equals(password))
             {
                 return applicant;
             }
@@ -84,12 +84,13 @@ namespace BankAppBackend.Service
         public void UpdateApplicantStatus(long applicantId, AccountStatuses accountStatus, Teller teller)
         {
             Applicant? applicant = GetApplicantById(applicantId);
+
             if (applicant == null)
             {
                 throw new EntityNotFoundException($"Applicant with id {applicantId} not found");
             }
 
-            if(customerService.CheckIfCustomerExistAgainstApplicantId(applicantId))
+            if (customerService.CheckIfCustomerExistAgainstApplicantId(applicantId))
             {
                 throw new EntityAlreadyExistException($"Customer already exist against this applicant id {applicantId}");
             }
@@ -104,11 +105,14 @@ namespace BankAppBackend.Service
             }
 
             //preparing model to send on queue for another MVC App.
-            ApplicantMessagesModel applicantMessageModel = new ApplicantMessagesModel();
-            applicantMessageModel.ApplicantId = applicant.Id;
-            applicantMessageModel.AccountStatus = accountStatus;
-            applicantMessageModel.ApplicantEmailAddress = applicant.EmailAddress;
-            applicantMessageModel.Message = $"Dear Applicant {applicant.ApplicateName}, your status has been updated to {accountStatus}";
+            ApplicantMessagesModel applicantMessageModel = new ApplicantMessagesModel()
+            {
+                ApplicantId = applicant.Id,
+                AccountStatus = accountStatus,
+                ApplicantEmailAddress = applicant.EmailAddress,
+                Message = $"Dear Applicant {applicant.ApplicateName}, your status has been updated to {accountStatus}"
+            };
+
             redisMessagePublisherService.SendMessage(applicantMessageModel);
         }
     }
