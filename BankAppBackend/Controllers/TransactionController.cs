@@ -9,11 +9,14 @@ namespace BankAppBackend.Controllers
     [ApiController]
     public class TransactionController : ControllerBase
     {
-        private readonly ITransactionService _transactionService;
+        private readonly ILogger<TransactionController> logger;
+        private readonly ITransactionService transactionService;
 
-        public TransactionController(ITransactionService transactionService)
+        public TransactionController(ILogger<TransactionController> logger,
+            ITransactionService transactionService)
         {
-            this._transactionService = transactionService;
+            this.logger = logger;
+            this.transactionService = transactionService;
         }
 
         [HttpPost]
@@ -21,19 +24,17 @@ namespace BankAppBackend.Controllers
         {
             try
             {
-                return Ok(this._transactionService.AddTransaction(transaction));
-            }
-            catch (EntityNotFoundException exception)
-            {
-                Console.Write(exception.ToString());
-                return NotFound(exception.Message);
+                return Ok(this.transactionService.AddTransaction(transaction));
             }
             catch (Exception exception)
             {
-                Console.Write(exception.ToString());
-                return BadRequest(exception.Message);
-            }
+                this.logger.LogError(exception, "AddTransaction failed");
 
+                if (exception is EntityNotFoundException)
+                    return NotFound(exception.Message);
+                else
+                    return BadRequest(exception.Message);
+            }
         }
 
         [HttpGet("{id}")]
@@ -41,17 +42,16 @@ namespace BankAppBackend.Controllers
         {
             try
             {
-                return Ok(this._transactionService.GetTransactionById(id));
-            }
-            catch (EntityNotFoundException exception)
-            {
-                Console.Write(exception.ToString());
-                return NotFound(exception.Message);
+                return Ok(this.transactionService.GetTransactionById(id));
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception.ToString());
-                return BadRequest(exception.Message);
+                this.logger.LogError(exception, "GetTransactionById failed for {id}", id);
+
+                if (exception is EntityNotFoundException)
+                    return NotFound(exception.Message);
+                else
+                    return BadRequest(exception.Message);
             }
         }
 
@@ -61,14 +61,14 @@ namespace BankAppBackend.Controllers
         [HttpGet]
         public ActionResult<List<Transaction>> GetAllTranscation()
         {
-            IEnumerable<Transaction> txnList = this._transactionService.GetTransactions();
+            IEnumerable<Transaction> txnList = this.transactionService.GetTransactions();
             return Ok(txnList);
         }
 
         [HttpGet("accountTransactions/{accountId}")]
         public ActionResult<List<Transaction>> GetAllTranscationByAccountId(Guid accountId)
         {
-            IEnumerable<Transaction> txnList = this._transactionService.GetTransactionsByAccountId(accountId);
+            IEnumerable<Transaction> txnList = this.transactionService.GetTransactionsByAccountId(accountId);
             return Ok(txnList);
         }
     }

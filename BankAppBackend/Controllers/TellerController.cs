@@ -9,11 +9,14 @@ namespace BankAppBackend.Controllers
     [ApiController]
     public class TellerController : ControllerBase
     {
-        private ITellerService tellerSevice;
+        private readonly ILogger<TellerController> logger;
+        private readonly ITellerService tellerSevice;
         
-        public TellerController(ITellerService applicantService)
+        public TellerController(ILogger<TellerController> logger,
+            ITellerService applicantService)
         {
-            tellerSevice = applicantService;
+            this.logger = logger;
+            this.tellerSevice = applicantService;
         }
 
         [HttpPut("changeStatus/{applicantId}")]
@@ -24,14 +27,14 @@ namespace BankAppBackend.Controllers
                 tellerSevice.ChangeApplicantStatus(applicantId, accountStatus.AccountStatus, accountStatus.TellerId);
                 return Ok();
             }
-            catch (EntityAlreadyExistException exception)
-            {
-                Console.WriteLine(exception.ToString());
-                return NotFound(exception.Message);
-            }
             catch (Exception exception)
             {
-                return BadRequest(exception.Message);
+                this.logger.LogError(exception, "ChangeApplicantStatus failed for {applicantId}", applicantId);
+
+                if (exception is EntityAlreadyExistException)
+                    return NotFound(exception.Message);
+                else
+                    return BadRequest(exception.Message);
             }
         }
 
@@ -42,17 +45,15 @@ namespace BankAppBackend.Controllers
             {
                 return tellerSevice.GetTellerById(id);
             }
-            catch (EntityAlreadyExistException exception)
-            {
-                Console.WriteLine(exception.ToString());
-                return NotFound(exception.Message);
-            }
             catch (Exception exception)
             {
-                Console.WriteLine(exception.ToString());
-                return BadRequest(exception.Message);
-            }
+                this.logger.LogError(exception, "GetTellerById for {id}", id);
 
+                if (exception is EntityAlreadyExistException)
+                    return NotFound(exception.Message);
+                else
+                    return BadRequest(exception.Message);
+            }
         }
 
         [HttpPost]
@@ -62,14 +63,15 @@ namespace BankAppBackend.Controllers
             {
                 return tellerSevice.RegisterTeller(teller);
             }
-            catch (EntityAlreadyExistException exception)
-            {
-                return Conflict(exception.Message);
-            }
             catch (Exception exception)
             {
-                return BadRequest(exception.Message);
-            } 
+                this.logger.LogError(exception, "RegisterTeller failed");
+
+                if (exception is EntityAlreadyExistException)
+                    return Conflict(exception.Message);
+                else
+                    return BadRequest(exception.Message);
+            }
         }
     }
 }

@@ -9,12 +9,15 @@ namespace BankAppBackend.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-
+        private readonly ILogger<CustomerController> logger;
         private readonly ICustomerService customerService;
         private readonly IAccountService accountService;
 
-        public CustomerController(ICustomerService customerService, IAccountService accountService)
+        public CustomerController(ILogger<CustomerController> logger,
+            ICustomerService customerService,
+            IAccountService accountService)
         {
+            this.logger = logger;
             this.customerService = customerService;
             this.accountService = accountService;
         }
@@ -50,13 +53,14 @@ namespace BankAppBackend.Controllers
             {
                 return Ok(customerService.FindCustomerById(customerId));
             }
-            catch (EntityNotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
             catch (Exception exception)
             {
-                return BadRequest(exception.Message);
+                this.logger.LogError(exception, "GetCustomerDetailsById failed for {customerId}", customerId);
+
+                if (exception is EntityNotFoundException)
+                    return NotFound(exception.Message);
+                else
+                    return BadRequest(exception.Message);
             }
         }
 
