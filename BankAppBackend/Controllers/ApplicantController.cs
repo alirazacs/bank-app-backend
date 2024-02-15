@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BankAppBackend.Models;
-using Microsoft.EntityFrameworkCore;
 using BankAppBackend.Service.Interfaces;
 using BankAppBackend.Exceptions;
 
@@ -10,10 +9,13 @@ namespace BankAppBackend.Controllers
     [ApiController]
     public class ApplicantController : ControllerBase
     {
+        private readonly ILogger<ApplicantController> logger;
         private readonly IApplicantService applicantService;
         
-        public ApplicantController(IApplicantService applicantService)
+        public ApplicantController(ILogger<ApplicantController> logger,
+            IApplicantService applicantService)
         {
+            this.logger = logger;
             this.applicantService = applicantService;
         }
 
@@ -32,14 +34,14 @@ namespace BankAppBackend.Controllers
                 var applicant = applicantService.GetApplicantById(id);
                 return Ok(applicant);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
-                Console.WriteLine(exception.ToString());
-                if (exception is EntityNotFound)
-                {
+                this.logger.LogError(exception, "FindApplicantById failed for {id}", id);
+
+                if (exception is EntityAlreadyExistException)
                     return NotFound(exception.Message);
-                }
-                return BadRequest(exception.Message);   
+                else
+                    return BadRequest(exception.Message);
             }
         }
 
@@ -51,14 +53,14 @@ namespace BankAppBackend.Controllers
                 Applicant savedApplicant = applicantService.AddApplicant(applicant);
                 return Ok(savedApplicant);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
-                Console.WriteLine(exception.ToString());
-                if (exception is EntityAlreadyExist)
-                {
+                this.logger.LogError(exception, "AddApplicant failed");
+
+                if (exception is EntityAlreadyExistException)
                     return Conflict(exception.Message);
-                }
-                return BadRequest(exception.Message);
+                else
+                    return BadRequest(exception.Message);
             }
         }
 
@@ -72,14 +74,13 @@ namespace BankAppBackend.Controllers
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception.ToString());
-                if (exception is EntityNotFound)
-                {
+                this.logger.LogError(exception, "FindApplicantByEmailAddress failed for {emailAddress}", emailAddress);
+
+                if (exception is EntityAlreadyExistException)
                     return NotFound(exception.Message);
-                }
-                return BadRequest(exception.Message);
+                else
+                    return BadRequest(exception.Message);
             }
         }
-
     }
 }

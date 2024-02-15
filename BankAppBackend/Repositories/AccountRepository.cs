@@ -6,8 +6,10 @@ namespace BankAppBackend.Repositories
 {
     public class AccountRepository : IAccountRepository
     {
-        private readonly DatabaseContext _databaseContext;  
-        public AccountRepository(DatabaseContext databaseContext) {
+        private readonly DatabaseContext _databaseContext;
+
+        public AccountRepository(DatabaseContext databaseContext)
+        {
             this._databaseContext = databaseContext;
         }
 
@@ -20,8 +22,9 @@ namespace BankAppBackend.Repositories
 
         public Account GetAccountAgainstCustomerId(long customerId)
         {
-            return _databaseContext.Accounts.Include(account => account.Customer).ThenInclude(account=>account.Applicant).FirstOrDefault(account => account.Customer.CustomerId.Equals(customerId));
-
+            return _databaseContext.Accounts.Include(account => account.Customer)
+                .ThenInclude(account => account.Applicant)
+                .FirstOrDefault(account => account.Customer.CustomerId.Equals(customerId));
         }
 
         public Account? GetAccountById(Guid id)
@@ -31,7 +34,7 @@ namespace BankAppBackend.Repositories
 
         public List<Account> GetAccountsAgainstCustomerId(long customerId)
         {
-            return _databaseContext.Accounts.Where(accounts=>accounts.CustomerId.Equals(customerId)).ToList(); 
+            return _databaseContext.Accounts.Where(accounts => accounts.CustomerId.Equals(customerId)).ToList();
         }
     }
 }

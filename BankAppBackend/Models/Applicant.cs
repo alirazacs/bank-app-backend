@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BankAppBackend.Models
 {
-    public enum AccountType
+    public enum AccountTypes
     {
-        CURRENT, SAVING, BUSINESS
+        CURRENT, SAVING, BUSINESS // we dont like all caps names in general; its considered YELLING
     }
-    public enum AccountStatus
+    public enum AccountStatuses
     {
         APPROVED, DENIED, PENDING
     }
@@ -30,8 +30,8 @@ namespace BankAppBackend.Models
         [Required(ErrorMessage = "Applicant dob can't be empty")]
         public DateOnly DOB { get; set; }
         [Required(ErrorMessage = "Applicant account type can't be null")]
-        public AccountType AccountType { get; set; }
-        public AccountStatus AccountStatus { get; set; } = AccountStatus.PENDING;
+        public AccountTypes AccountType { get; set; }
+        public AccountStatuses AccountStatus { get; set; } = AccountStatuses.PENDING;
         public long? TellerId { get; set; } //teller foreign key
         public Teller? Teller { get; set; } // navigation property 
         public Customer? Customer { get; set; }

@@ -2,7 +2,7 @@
 {
     public class ApplicantStatus
     {
-        public AccountStatus AccountStatus { get; set; }    
+        public AccountStatuses AccountStatus { get; set; }    
         public long TellerId { get; set; }  
     }
 }

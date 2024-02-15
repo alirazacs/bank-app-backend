@@ -22,7 +22,7 @@ namespace BankAppBackend.Controllers
         [HttpPost]
         public async Task SendMessage([FromBody] ApplicantMessagesModel message)
         {
-            await RedisMessagePublisherService.sendMessage(message);
+            await RedisMessagePublisherService.SendMessage(message);
         }
 
     }

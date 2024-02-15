@@ -1,4 +1,4 @@
-﻿namespace BankAppBackend.Models
+﻿namespace BankAppBackend
 {
     public class ConnectionStringsOptions
     {

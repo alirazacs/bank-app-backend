@@ -2,8 +2,6 @@
 using BankAppBackend.Models;
 using BankAppBackend.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 
 namespace BankAppBackend.Controllers
 {
@@ -11,10 +9,14 @@ namespace BankAppBackend.Controllers
     [ApiController]
     public class TellerController : ControllerBase
     {
-        private ITellerService tellerSevice;
-        public TellerController(ITellerService applicantService)
+        private readonly ILogger<TellerController> logger;
+        private readonly ITellerService tellerSevice;
+        
+        public TellerController(ILogger<TellerController> logger,
+            ITellerService applicantService)
         {
-            tellerSevice = applicantService;
+            this.logger = logger;
+            this.tellerSevice = applicantService;
         }
 
         [HttpPut("changeStatus/{applicantId}")]
@@ -27,16 +29,12 @@ namespace BankAppBackend.Controllers
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception.ToString());
-                if (exception is EntityNotFound)
-                {
+                this.logger.LogError(exception, "ChangeApplicantStatus failed for {applicantId}", applicantId);
+
+                if (exception is EntityAlreadyExistException)
                     return NotFound(exception.Message);
-                }
-                else if (exception is EntityNotFound)
-                {
-                    return Conflict(exception.Message);
-                }
-                return BadRequest(exception.Message);
+                else
+                    return BadRequest(exception.Message);
             }
         }
 
@@ -47,36 +45,33 @@ namespace BankAppBackend.Controllers
             {
                 return tellerSevice.GetTellerById(id);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
-                Console.WriteLine(exception.ToString());
-                if(exception is EntityNotFound)
-                {
+                this.logger.LogError(exception, "GetTellerById for {id}", id);
+
+                if (exception is EntityAlreadyExistException)
                     return NotFound(exception.Message);
-                }
-                return BadRequest(exception.Message);
+                else
+                    return BadRequest(exception.Message);
             }
-
         }
-        [HttpPost]
 
+        [HttpPost]
         public ActionResult<Teller> RegisterTeller(Teller teller)
         {
             try
             {
                 return tellerSevice.RegisterTeller(teller);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
-                if(exception is EntityAlreadyExist)
-                {
+                this.logger.LogError(exception, "RegisterTeller failed");
+
+                if (exception is EntityAlreadyExistException)
                     return Conflict(exception.Message);
-                }
-                return BadRequest(exception.Message);
-            } 
+                else
+                    return BadRequest(exception.Message);
+            }
         }
-
-        
-
     }
 }

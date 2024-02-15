@@ -9,12 +9,15 @@ namespace BankAppBackend.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-
+        private readonly ILogger<CustomerController> logger;
         private readonly ICustomerService customerService;
         private readonly IAccountService accountService;
 
-        public CustomerController(ICustomerService customerService, IAccountService accountService)
+        public CustomerController(ILogger<CustomerController> logger,
+            ICustomerService customerService,
+            IAccountService accountService)
         {
+            this.logger = logger;
             this.customerService = customerService;
             this.accountService = accountService;
         }
@@ -34,6 +37,9 @@ namespace BankAppBackend.Controllers
 
         }
 
+        /*
+         * why we need this?
+         */
         [HttpGet("allCustomers")]
         public ActionResult<IEnumerable<Customer>> GetAllCustomers()
         {
@@ -47,13 +53,14 @@ namespace BankAppBackend.Controllers
             {
                 return Ok(customerService.FindCustomerById(customerId));
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
-                if(exception is EntityNotFound)
-                {
+                this.logger.LogError(exception, "GetCustomerDetailsById failed for {customerId}", customerId);
+
+                if (exception is EntityNotFoundException)
                     return NotFound(exception.Message);
-                }
-                return BadRequest(exception.Message);
+                else
+                    return BadRequest(exception.Message);
             }
         }
 
